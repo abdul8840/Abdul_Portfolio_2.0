@@ -30,6 +30,7 @@ export const uploadFile = async (req, res, next) => {
 
     res.status(200).json({ url: result.secure_url });
   } catch (error) {
+    console.error('Cloudinary upload failed:', error.message || error);
     next(errorHandler(500, 'Image upload failed'));
   }
 };

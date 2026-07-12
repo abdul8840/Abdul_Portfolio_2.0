@@ -1,0 +1,4 @@
+{
+  "watch": ["api", ".env"],
+  "ext": "js,json,env"
+}
