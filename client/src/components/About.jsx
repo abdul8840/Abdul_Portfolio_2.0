@@ -1,4 +1,3 @@
-import React from 'react';
 import HeroImg from "../assets/abdulpf.jpg";
 import Resume from "../assets/Abdul_Rahman_cv.pdf";
 import { FaBriefcase } from "react-icons/fa";
@@ -34,7 +33,7 @@ const About = () => {
             </div>
           </div>
           <div className="w-full mt-10">
-            <p className='text-lg text-gray-500'>I'm Abdul, a passionate and dedicated
+            <p className='text-lg text-gray-500'>I&apos;m Abdul, a passionate and dedicated
               developer with a strong focus on building scalable, efficient, and
               user-friendly applications. </p>
           </div>

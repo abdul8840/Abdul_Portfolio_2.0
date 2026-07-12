@@ -6,7 +6,15 @@ import {
   HiDocumentText,
   HiOutlineUserGroup,
 } from 'react-icons/hi';
-import { Button, Table } from 'flowbite-react';
+import {
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeadCell,
+  TableRow,
+} from 'flowbite-react';
 import { Link } from 'react-router-dom';
 
 const DashComp = () => {
@@ -198,89 +206,89 @@ const DashComp = () => {
       <div className='flex flex-col w-full md:w-auto shadow-md p-2 rounded-md dark:bg-gray-800'>
         <div className='flex justify-between  p-3 text-sm font-semibold'>
           <h1 className='text-center p-2'>Recent users</h1>
-          <Button outline gradientDuoTone='purpleToPink'>
+          <Button outline color='purple'>
             <Link to={'/dashboard?tab=users'}>See all</Link>
           </Button>
         </div>
         <Table hoverable>
-          <Table.Head>
-            <Table.HeadCell>User image</Table.HeadCell>
-            <Table.HeadCell>Username</Table.HeadCell>
-          </Table.Head>
+          <TableHead>
+            <TableHeadCell>User image</TableHeadCell>
+            <TableHeadCell>Username</TableHeadCell>
+          </TableHead>
           {users &&
             users.map((user) => (
-              <Table.Body key={user._id} className='divide-y'>
-                <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
-                  <Table.Cell>
+              <TableBody key={user._id} className='divide-y'>
+                <TableRow className='bg-white dark:border-gray-700 dark:bg-gray-800'>
+                  <TableCell>
                     <img
                       src={user.profilePicture}
                       alt='user'
                       className='w-10 h-10 rounded-full bg-gray-500'
                     />
-                  </Table.Cell>
-                  <Table.Cell>{user.username}</Table.Cell>
-                </Table.Row>
-              </Table.Body>
+                  </TableCell>
+                  <TableCell>{user.username}</TableCell>
+                </TableRow>
+              </TableBody>
             ))}
         </Table>
       </div>
       <div className='flex flex-col w-full md:w-auto shadow-md p-2 rounded-md dark:bg-gray-800'>
         <div className='flex justify-between  p-3 text-sm font-semibold'>
           <h1 className='text-center p-2'>Recent Contacts</h1>
-          <Button outline gradientDuoTone='purpleToPink'>
+          <Button outline color='purple'>
             <Link to={'/dashboard?tab=contact'}>See all</Link>
           </Button>
         </div>
         <Table hoverable>
 
-        <Table.Head>
-            <Table.HeadCell>Name</Table.HeadCell>
-            <Table.HeadCell>Message</Table.HeadCell>
-          </Table.Head>
+        <TableHead>
+            <TableHeadCell>Name</TableHeadCell>
+            <TableHeadCell>Message</TableHeadCell>
+          </TableHead>
           
           {contacts &&
             contacts.map((contact) => (
-              <Table.Body key={contact._id} className='divide-y'>
-                <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
-                  <Table.Cell className='w-96'>
+              <TableBody key={contact._id} className='divide-y'>
+                <TableRow className='bg-white dark:border-gray-700 dark:bg-gray-800'>
+                  <TableCell className='w-96'>
                       <p className='line-clamp-2'>{contact.name}</p>
-                  </Table.Cell>
-                  <Table.Cell className='w-96'>
+                  </TableCell>
+                  <TableCell className='w-96'>
                       <p className='line-clamp-2'>{contact.message}</p>
-                  </Table.Cell>
-                </Table.Row>
-              </Table.Body>
+                  </TableCell>
+                </TableRow>
+              </TableBody>
             ))}
         </Table>
       </div>
       <div className='flex flex-col w-full md:w-auto shadow-md p-2 rounded-md dark:bg-gray-800'>
         <div className='flex justify-between  p-3 text-sm font-semibold'>
           <h1 className='text-center p-2'>Recent posts</h1>
-          <Button outline gradientDuoTone='purpleToPink'>
+          <Button outline color='purple'>
             <Link to={'/dashboard?tab=posts'}>See all</Link>
           </Button>
         </div>
         <Table hoverable>
-          <Table.Head>
-            <Table.HeadCell>Post image</Table.HeadCell>
-            <Table.HeadCell>Post Title</Table.HeadCell>
-            <Table.HeadCell>Category</Table.HeadCell>
-          </Table.Head>
+          <TableHead>
+            <TableHeadCell>Post image</TableHeadCell>
+            <TableHeadCell>Post Title</TableHeadCell>
+            <TableHeadCell>Category</TableHeadCell>
+          </TableHead>
           {posts &&
             posts.map((post) => (
-              <Table.Body key={post._id} className='divide-y'>
-                <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
-                  <Table.Cell>
+              <TableBody key={post._id} className='divide-y'>
+                <TableRow className='bg-white dark:border-gray-700 dark:bg-gray-800'>
+                  <TableCell>
                     <img
                       src={post.image}
                       alt='user'
                       className='w-14 h-10 rounded-md bg-gray-500'
                     />
-                  </Table.Cell>
-                  <Table.Cell className='w-96'>{post.title}</Table.Cell>
-                  <Table.Cell className='w-5'>{post.category}</Table.Cell>
-                </Table.Row>
-              </Table.Body>
+                  </TableCell>
+                  <TableCell className='w-96'>{post.title}</TableCell>
+                  <TableCell className='w-5'>{post.category}</TableCell>
+                </TableRow>
+              </TableBody>
             ))}
         </Table>
       </div>
@@ -288,29 +296,29 @@ const DashComp = () => {
       <div className='flex flex-col w-full md:w-auto shadow-md p-2 rounded-md dark:bg-gray-800'>
         <div className='flex justify-between  p-3 text-sm font-semibold'>
           <h1 className='text-center p-2'>Recent posts</h1>
-          <Button outline gradientDuoTone='purpleToPink'>
+          <Button outline color='purple'>
             <Link to={'/dashboard?tab=services'}>See all</Link>
           </Button>
         </div>
         <Table hoverable>
-          <Table.Head>
-            <Table.HeadCell>Service image</Table.HeadCell>
-            <Table.HeadCell>Title Title</Table.HeadCell>
-          </Table.Head>
+          <TableHead>
+            <TableHeadCell>Service image</TableHeadCell>
+            <TableHeadCell>Title Title</TableHeadCell>
+          </TableHead>
           {services &&
             services.map((service) => (
-              <Table.Body key={service._id} className='divide-y'>
-                <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
-                  <Table.Cell>
+              <TableBody key={service._id} className='divide-y'>
+                <TableRow className='bg-white dark:border-gray-700 dark:bg-gray-800'>
+                  <TableCell>
                     <img
                       src={service.image}
                       alt='user'
                       className='w-14 h-10 rounded-md bg-gray-500'
                     />
-                  </Table.Cell>
-                  <Table.Cell className='w-96'>{service.serviceTitle}</Table.Cell>
-                </Table.Row>
-              </Table.Body>
+                  </TableCell>
+                  <TableCell className='w-96'>{service.serviceTitle}</TableCell>
+                </TableRow>
+              </TableBody>
             ))}
         </Table>
       </div>
@@ -318,31 +326,31 @@ const DashComp = () => {
       <div className='flex flex-col w-full md:w-auto shadow-md p-2 rounded-md dark:bg-gray-800'>
         <div className='flex justify-between  p-3 text-sm font-semibold'>
           <h1 className='text-center p-2'>Recent Skills</h1>
-          <Button outline gradientDuoTone='purpleToPink'>
+          <Button outline color='purple'>
             <Link to={'/dashboard?tab=skills'}>See all</Link>
           </Button>
         </div>
         <Table hoverable>
-          <Table.Head>
-            <Table.HeadCell>Skill image</Table.HeadCell>
-            <Table.HeadCell>Technologies</Table.HeadCell>
-            <Table.HeadCell>Percents</Table.HeadCell>
-          </Table.Head>
+          <TableHead>
+            <TableHeadCell>Skill image</TableHeadCell>
+            <TableHeadCell>Technologies</TableHeadCell>
+            <TableHeadCell>Percents</TableHeadCell>
+          </TableHead>
           {skills &&
             skills.map((skill) => (
-              <Table.Body key={skill._id} className='divide-y'>
-                <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
-                  <Table.Cell>
+              <TableBody key={skill._id} className='divide-y'>
+                <TableRow className='bg-white dark:border-gray-700 dark:bg-gray-800'>
+                  <TableCell>
                     <img
                       src={skill.image}
                       alt='user'
                       className='w-14 h-10 rounded-md bg-gray-500'
                     />
-                  </Table.Cell>
-                  <Table.Cell className='w-96'>{skill.technology}</Table.Cell>
-                  <Table.Cell className='w-5'>{skill.percent}</Table.Cell>
-                </Table.Row>
-              </Table.Body>
+                  </TableCell>
+                  <TableCell className='w-96'>{skill.technology}</TableCell>
+                  <TableCell className='w-5'>{skill.percent}</TableCell>
+                </TableRow>
+              </TableBody>
             ))}
         </Table>
       </div>

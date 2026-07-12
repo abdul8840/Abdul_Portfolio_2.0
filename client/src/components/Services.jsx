@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaArrowRightLong } from "react-icons/fa6";
-import { Button, Modal } from "flowbite-react";
+import { Modal, ModalBody, ModalHeader } from "flowbite-react";
 
 const Services = () => {
   const [userServices, setUserServices] = useState([]);
@@ -50,8 +50,8 @@ const Services = () => {
       </div>
 
       <Modal show={openModal} size="md" onClose={() => setOpenModal(false)} popup>
-        <Modal.Header />
-        <Modal.Body>
+        <ModalHeader />
+        <ModalBody>
           {selectedService && (
             <div className="">
               <div className="text-center">
@@ -61,7 +61,7 @@ const Services = () => {
             <p className="mt-10 mb-5">{selectedService.serviceDescription}</p>
             </div>
           )}
-        </Modal.Body>
+        </ModalBody>
       </Modal>
     </div>
   );

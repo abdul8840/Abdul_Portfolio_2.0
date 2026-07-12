@@ -1,5 +1,5 @@
 import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaGithub, FaLinkedin,FaDiscord } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
@@ -55,7 +55,7 @@ const SignIn = () => {
             Abdul Rahman
           </Link>
           <p className="text-sm mt-5 font-[500] text-gray-500">
-            I'm a creative web designer based in Maharastra India, and i'm very
+            I&apos;m a creative web designer based in Maharastra India, and i&apos;m very
             passionate and dedicated to my work.
           </p>
           <div className="mt-8 flex justify-start text-3xl gap-6 dark:text-white">
@@ -89,7 +89,7 @@ const SignIn = () => {
             </div>
             <Button
               className="w-full mt-5"
-              gradientDuoTone="pinkToOrange"
+              color='pink'
               type="submit"
               disabled={loading}
             >
@@ -104,7 +104,7 @@ const SignIn = () => {
           </form>
           
           <div className="flex gap-2 text-sm mt-5">
-            <span>Don't have an account? </span>
+            <span>Don&apos;t have an account? </span>
             <Link to="/sign-up" className="text-blue-500">
               Sign Up
             </Link>

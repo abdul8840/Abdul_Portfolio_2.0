@@ -1,4 +1,15 @@
-import { Modal, Table, Button } from 'flowbite-react';
+import {
+  Modal,
+  ModalBody,
+  ModalHeader,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeadCell,
+  TableRow,
+  Button,
+} from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
@@ -28,7 +39,7 @@ export default function DashUsers() {
     if (currentUser.isAdmin) {
       fetchUsers();
     }
-  }, [currentUser._id]);
+  }, [currentUser._id, currentUser.isAdmin]);
 
   const handleShowMore = async () => {
     const startIndex = users.length;
@@ -68,37 +79,37 @@ export default function DashUsers() {
       {currentUser.isAdmin && users.length > 0 ? (
         <>
           <Table hoverable className='shadow-md'>
-            <Table.Head>
-              <Table.HeadCell>Date created</Table.HeadCell>
-              <Table.HeadCell>User image</Table.HeadCell>
-              <Table.HeadCell>Username</Table.HeadCell>
-              <Table.HeadCell>Email</Table.HeadCell>
-              <Table.HeadCell>Admin</Table.HeadCell>
-              <Table.HeadCell>Delete</Table.HeadCell>
-            </Table.Head>
+            <TableHead>
+              <TableHeadCell>Date created</TableHeadCell>
+              <TableHeadCell>User image</TableHeadCell>
+              <TableHeadCell>Username</TableHeadCell>
+              <TableHeadCell>Email</TableHeadCell>
+              <TableHeadCell>Admin</TableHeadCell>
+              <TableHeadCell>Delete</TableHeadCell>
+            </TableHead>
             {users.map((user) => (
-              <Table.Body className='divide-y' key={user._id}>
-                <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
-                  <Table.Cell>
+              <TableBody className='divide-y' key={user._id}>
+                <TableRow className='bg-white dark:border-gray-700 dark:bg-gray-800'>
+                  <TableCell>
                     {new Date(user.createdAt).toLocaleDateString()}
-                  </Table.Cell>
-                  <Table.Cell>
+                  </TableCell>
+                  <TableCell>
                     <img
                       src={user.profilePicture}
                       alt={user.username}
                       className='w-10 h-10 object-cover bg-gray-500 rounded-full'
                     />
-                  </Table.Cell>
-                  <Table.Cell>{user.username}</Table.Cell>
-                  <Table.Cell>{user.email}</Table.Cell>
-                  <Table.Cell>
+                  </TableCell>
+                  <TableCell>{user.username}</TableCell>
+                  <TableCell>{user.email}</TableCell>
+                  <TableCell>
                     {user.isAdmin ? (
                       <FaCheck className='text-green-500' />
                     ) : (
                       <FaTimes className='text-red-500' />
                     )}
-                  </Table.Cell>
-                  <Table.Cell>
+                  </TableCell>
+                  <TableCell>
                     <span
                       onClick={() => {
                         setShowModal(true);
@@ -108,9 +119,9 @@ export default function DashUsers() {
                     >
                       Delete
                     </span>
-                  </Table.Cell>
-                </Table.Row>
-              </Table.Body>
+                  </TableCell>
+                </TableRow>
+              </TableBody>
             ))}
           </Table>
           {showMore && (
@@ -131,8 +142,8 @@ export default function DashUsers() {
         popup
         size='md'
       >
-        <Modal.Header />
-        <Modal.Body>
+        <ModalHeader />
+        <ModalBody>
           <div className='text-center'>
             <HiOutlineExclamationCircle className='h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto' />
             <h3 className='mb-5 text-lg text-gray-500 dark:text-gray-400'>
@@ -140,14 +151,14 @@ export default function DashUsers() {
             </h3>
             <div className='flex justify-center gap-4'>
               <Button color='failure' onClick={handleDeleteUser}>
-                Yes, I'm sure
+                Yes, I&apos;m sure
               </Button>
               <Button color='gray' onClick={() => setShowModal(false)}>
                 No, cancel
               </Button>
             </div>
           </div>
-        </Modal.Body>
+        </ModalBody>
       </Modal>
     </div>
   );

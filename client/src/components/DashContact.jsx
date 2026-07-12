@@ -1,4 +1,15 @@
-import { Modal, Table, Button } from 'flowbite-react';
+import {
+  Modal,
+  ModalBody,
+  ModalHeader,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeadCell,
+  TableRow,
+  Button,
+} from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
@@ -76,23 +87,23 @@ const DashContact = () => {
       {currentUser.isAdmin && contacts.length > 0 ? (
         <>
           <Table hoverable className='shadow-md'>
-            <Table.Head>
-              <Table.HeadCell>Date updated</Table.HeadCell>
-              <Table.HeadCell>Name</Table.HeadCell>
-              <Table.HeadCell>Email</Table.HeadCell>
-              <Table.HeadCell>Message</Table.HeadCell>
-              <Table.HeadCell>Delete</Table.HeadCell>
-            </Table.Head>
+            <TableHead>
+              <TableHeadCell>Date updated</TableHeadCell>
+              <TableHeadCell>Name</TableHeadCell>
+              <TableHeadCell>Email</TableHeadCell>
+              <TableHeadCell>Message</TableHeadCell>
+              <TableHeadCell>Delete</TableHeadCell>
+            </TableHead>
             {contacts.map((contact) => (
-              <Table.Body className='divide-y' key={contact._id}>
-                <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
-                  <Table.Cell>
+              <TableBody className='divide-y' key={contact._id}>
+                <TableRow className='bg-white dark:border-gray-700 dark:bg-gray-800'>
+                  <TableCell>
                     {new Date(contact.updatedAt).toLocaleDateString()}
-                  </Table.Cell>
-                  <Table.Cell>{contact.name}</Table.Cell>
-                  <Table.Cell>{contact.email}</Table.Cell>
-                  <Table.Cell>{contact.message}</Table.Cell>
-                  <Table.Cell>
+                  </TableCell>
+                  <TableCell>{contact.name}</TableCell>
+                  <TableCell>{contact.email}</TableCell>
+                  <TableCell>{contact.message}</TableCell>
+                  <TableCell>
                     <span
                       onClick={() => {
                         setShowModal(true);
@@ -102,9 +113,9 @@ const DashContact = () => {
                     >
                       Delete
                     </span>
-                  </Table.Cell>
-                </Table.Row>
-              </Table.Body>
+                  </TableCell>
+                </TableRow>
+              </TableBody>
             ))}
           </Table>
           {showMore && (
@@ -125,8 +136,8 @@ const DashContact = () => {
         popup
         size='md'
       >
-        <Modal.Header />
-        <Modal.Body>
+        <ModalHeader />
+        <ModalBody>
           <div className='text-center'>
             <HiOutlineExclamationCircle className='h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto' />
             <h3 className='mb-5 text-lg text-gray-500 dark:text-gray-400'>
@@ -134,14 +145,14 @@ const DashContact = () => {
             </h3>
             <div className='flex justify-center gap-4'>
               <Button color='failure' onClick={handleDeleteContact}>
-                Yes, I'm sure
+                Yes, I&apos;m sure
               </Button>
               <Button color='gray' onClick={() => setShowModal(false)}>
                 No, cancel
               </Button>
             </div>
           </div>
-        </Modal.Body>
+        </ModalBody>
       </Modal>
     </div>
   );

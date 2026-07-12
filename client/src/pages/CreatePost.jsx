@@ -1,7 +1,7 @@
 import { Button, FileInput, Select, TextInput, Alert } from 'flowbite-react'
-import React, { useState } from 'react'
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import { useState } from 'react'
+import ReactQuill from 'react-quill-new';
+import 'react-quill-new/dist/quill.snow.css';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '../firebase.js';
 import { CircularProgressbar } from "react-circular-progressbar";
@@ -39,6 +39,7 @@ const CreatePost = () => {
         (error) => {
           setImageUploadError('Image upload failed');
           setImageUploadProgress(null);
+          console.log(error);
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
@@ -77,6 +78,7 @@ const CreatePost = () => {
       }
     } catch (error) {
       setPublishError('Somethin went wrong!')
+      console.log(error);
     }
   }
   return (
@@ -126,7 +128,7 @@ const CreatePost = () => {
           />
           <Button 
             type='button' 
-            gradientDuoTone='purpleToBlue' 
+            color='blue' 
             size='sm' 
             outline 
             onClick={handleUpdloadImage}
@@ -159,7 +161,7 @@ const CreatePost = () => {
             setFormData({ ...formData, content: value })
           }
           />
-        <Button type='submit' gradientDuoTone='purpleToPink'>
+        <Button type='submit' color='purple'>
           Create Post
         </Button>
         {

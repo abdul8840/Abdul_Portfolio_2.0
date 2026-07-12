@@ -1,7 +1,7 @@
-import { Button, FileInput, Select, TextInput, Alert } from 'flowbite-react'
-import React, { useState } from 'react'
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import { Button, FileInput, TextInput, Alert } from 'flowbite-react'
+import { useState } from 'react'
+import ReactQuill from 'react-quill-new';
+import 'react-quill-new/dist/quill.snow.css';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '../firebase.js';
 import { CircularProgressbar } from "react-circular-progressbar";
@@ -38,6 +38,7 @@ const CreateService = () => {
         (error) => {
           setImageUploadError('Image upload failed');
           setImageUploadProgress(null);
+          console.log(error);
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
@@ -66,15 +67,15 @@ const CreateService = () => {
       })
       const data = await res.json()
       if(!res.ok){
-        setPublishError(error.message);
+        setPublishError(data.message);
       }
       if(res.ok){
         setPublishError(null);
         navigate('/dashboard?tab=services');
       }
-      
+
     } catch (error) {
-      setPublishError(error)
+      setPublishError(error.message)
     }
   }
 
@@ -111,7 +112,7 @@ const CreateService = () => {
           />
           <Button 
             type='button' 
-            gradientDuoTone='purpleToBlue' 
+            color='blue' 
             size='sm' 
             outline 
             onClick={handleUpdloadImage}
@@ -144,7 +145,7 @@ const CreateService = () => {
             setFormData({ ...formData, serviceContent: value })
           }
           />
-        <Button type='submit' gradientDuoTone='purpleToPink'>
+        <Button type='submit' color='purple'>
           Create Service
         </Button>
         {

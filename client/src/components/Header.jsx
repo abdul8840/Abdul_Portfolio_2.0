@@ -1,5 +1,15 @@
-import { Avatar, Button, Dropdown, DropdownDivider, Navbar } from 'flowbite-react';
-import React from 'react';
+import {
+  Avatar,
+  Button,
+  Dropdown,
+  DropdownDivider,
+  DropdownHeader,
+  DropdownItem,
+  Navbar,
+  NavbarCollapse,
+  NavbarLink,
+  NavbarToggle,
+} from 'flowbite-react';
 import { Link, useLocation } from 'react-router-dom';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
@@ -52,19 +62,19 @@ const Header = () => {
               />
             }
             >
-              <Dropdown.Header>
+              <DropdownHeader>
                 <span className='block text-sm'>@{currentUser.username}</span>
                 <span className='block text-sm font-medium truncate'>{currentUser.email}</span>
-              </Dropdown.Header>
+              </DropdownHeader>
               <Link to='/dashboard?tab=profile'>
-              <Dropdown.Item>Profile</Dropdown.Item>
+              <DropdownItem>Profile</DropdownItem>
               </Link>
               <DropdownDivider />
-              <Dropdown.Item onClick={handleSignout}>Sign Out</Dropdown.Item>
+              <DropdownItem onClick={handleSignout}>Sign Out</DropdownItem>
             </Dropdown>
           ) : (
             <Link to='/sign-in'>
-            <Button gradientDuoTone='purpleToBlue' outline>
+            <Button color='blue' outline>
               Sign In
             </Button>
           </Link>
@@ -72,17 +82,17 @@ const Header = () => {
           
           
 
-          <Navbar.Toggle />
+          <NavbarToggle />
         </div>
 
-        <Navbar.Collapse className="md:max-w-20 md:flex md:items-center dark:text-white">
-          <Navbar.Link active={path === '/'} as='div'>
+        <NavbarCollapse className="md:max-w-20 md:flex md:items-center dark:text-white">
+          <NavbarLink active={path === '/'} as='div'>
             <Link to='/' className={path === '/' ? 'text-blue-500 block py-2 pr-4 pl-3 md:p-0' : 'block py-2 pr-4 pl-3 md:p-0'}>Home</Link>
-          </Navbar.Link>
-          <Navbar.Link active={path === '/about'} as='div'>
+          </NavbarLink>
+          <NavbarLink active={path === '/about'} as='div'>
             <Link to='/reviews' className={path === '/reviews' ? 'text-blue-500 block py-2 pr-4 pl-3 md:p-0' : 'block py-2 pr-4 pl-3 md:p-0'}>Testimonials</Link>
-          </Navbar.Link>
-        </Navbar.Collapse>
+          </NavbarLink>
+        </NavbarCollapse>
       </Navbar>
     </div>
   );

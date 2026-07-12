@@ -1,5 +1,5 @@
-import { Button, Modal } from "flowbite-react";
-import React, { useEffect, useState } from "react";
+import { Modal, ModalBody, ModalHeader } from "flowbite-react";
+import { useEffect, useState } from "react";
 import { FaArrowRightLong } from "react-icons/fa6";
 
 const Portfolio = () => {
@@ -109,8 +109,8 @@ const Portfolio = () => {
           popup
           className="mb-10"
         >
-          <Modal.Header />
-          <Modal.Body>
+          <ModalHeader />
+          <ModalBody>
             <div>
               <img
                 className="w-full mb-5"
@@ -131,7 +131,7 @@ const Portfolio = () => {
                 }}
               ></div>
             </div>
-          </Modal.Body>
+          </ModalBody>
         </Modal>
       )}
     </div>

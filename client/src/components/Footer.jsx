@@ -1,4 +1,3 @@
-import React from "react";
 import {
   FaGithub,
   FaLinkedin,
@@ -11,7 +10,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer container className="border border-t-8 py-10 border-teal-500">
+    <footer className="border border-t-8 py-10 border-teal-500">
       <div className="w-full max-w-3xl mx-auto text-center">
         <h2 className="my-10 text-xl sm:text-4xl font-bold">Abdul Rahman</h2>
 

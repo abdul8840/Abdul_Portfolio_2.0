@@ -1,5 +1,5 @@
-import { Alert, Button, Modal, ModalBody, TextInput } from "flowbite-react";
-import { useEffect, useRef, useState } from "react";
+import { Alert, Button, Modal, ModalBody, ModalHeader, TextInput } from "flowbite-react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import {
   getDownloadURL,
@@ -42,13 +42,7 @@ export default function DashProfile() {
       setImageFileUrl(URL.createObjectURL(file));
     }
   };
-  useEffect(() => {
-    if (imageFile) {
-      uploadImage();
-    }
-  }, [imageFile]);
-
-  const uploadImage = async () => {
+  const uploadImage = useCallback(async () => {
     // service firebase.storage {
     //   match /b/{bucket}/o {
     //     match /{allPaths=**} {
@@ -81,16 +75,23 @@ export default function DashProfile() {
         setImageFile(null);
         setImageFileUrl(null);
         setImageFileUploading(false);
+        console.log(error);
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setImageFileUrl(downloadURL);
-          setFormData({ ...formData, profilePicture: downloadURL });
+          setFormData((prev) => ({ ...prev, profilePicture: downloadURL }));
           setImageFileUploading(false);
         });
       }
     );
-  };
+  }, [imageFile]);
+
+  useEffect(() => {
+    if (imageFile) {
+      uploadImage();
+    }
+  }, [imageFile, uploadImage]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -241,7 +242,7 @@ export default function DashProfile() {
         />
         <Button 
           type="submit" 
-          gradientDuoTone="purpleToBlue" 
+          color='blue' 
           outline
           disabled={loading || imageFileUploading}
           >
@@ -277,8 +278,8 @@ export default function DashProfile() {
         popup
         size="md"
       >
-        <Modal.Header />
-        <Modal.Body>
+        <ModalHeader />
+        <ModalBody>
           <div className="text-center">
             <HiOutlineExclamationCircle className="h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto" />
             <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400">
@@ -286,14 +287,14 @@ export default function DashProfile() {
             </h3>
             <div className="flex justify-center gap-4">
               <Button color="failure" onClick={handleDeleteUser}>
-                Yes, I'm sure
+                Yes, I&apos;m sure
               </Button>
               <Button color="gray" onClick={() => setShowModal(false)}>
                 No, cancel
               </Button>
             </div>
           </div>
-        </Modal.Body>
+        </ModalBody>
       </Modal>
     </div>
   );

@@ -1,4 +1,3 @@
-import React from "react";
 import { FaGithub, FaLinkedin, FaDiscord } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import HeroImg from "../assets/abdulpf.jpg";
@@ -34,7 +33,7 @@ const Hero = () => {
           </span>
         </div>
         <p className="text-sm mt-5 font-[500] text-gray-500">
-          I'm a creative web designer based in Maharastra India, and i'm very
+          I&apos;m a creative web designer based in Maharastra India, and i&apos;m very
           passionate and dedicated to my work.
         </p>
         <button className="flex gap-2 py-4  bg-[#222] hover:bg-[#111] text-white dark:bg-white dark:text-black font-bold px-8 rounded-[20px] mt-8 md:mt-10 text-xl"><a href="#helloCont">Say Hii</a>

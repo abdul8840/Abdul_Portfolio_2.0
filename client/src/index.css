@@ -1,9 +1,8 @@
-@import 'flowbite/dist/flowbite.css';
-@import 'flowbite';
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@import "../node_modules/flowbite-react/dist/plugin/tailwindcss/index.css";
+@source "../node_modules/flowbite-react/dist/**/*.js";
+@plugin "tailwind-scrollbar";
+@custom-variant dark (&:where(.dark, .dark *));
 
 body{
   height: 100vh;

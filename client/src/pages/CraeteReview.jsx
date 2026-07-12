@@ -1,5 +1,5 @@
-import { Button, Textarea, TextInput } from "flowbite-react";
-import React, { useState } from "react";
+import { Button, Textarea } from "flowbite-react";
+import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import '../App.css'
@@ -77,7 +77,7 @@ const CreateReview = () => {
             setFormData({ ...formData, review: e.target.value });
           }}
         />
-        <Button type="submit" gradientDuoTone="purpleToPink">
+        <Button type="submit" color='purple'>
           Create Review
         </Button>
         {publishError && <div className='mt-5 text-red-600'>{publishError}</div>}

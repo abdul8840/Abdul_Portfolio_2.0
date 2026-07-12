@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FaArrowRight, FaTelegram } from "react-icons/fa";
 import { IoMdMail, IoLogoWhatsapp } from "react-icons/io";
-import { Button, TextInput, Textarea } from "flowbite-react";
+import { Alert, Button, TextInput, Textarea } from "flowbite-react";
 import { useSelector } from "react-redux";
 
 const Contact = () => {

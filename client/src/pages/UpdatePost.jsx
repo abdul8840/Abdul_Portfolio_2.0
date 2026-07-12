@@ -1,6 +1,6 @@
 import { Alert, Button, FileInput, Select, TextInput } from 'flowbite-react';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import ReactQuill from 'react-quill-new';
+import 'react-quill-new/dist/quill.snow.css';
 import {
   getDownloadURL,
   getStorage,
@@ -68,6 +68,7 @@ export default function UpdatePost() {
         (error) => {
           setImageUploadError('Image upload failed');
           setImageUploadProgress(null);
+          console.log(error);
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
@@ -105,6 +106,7 @@ export default function UpdatePost() {
       }
     } catch (error) {
       setPublishError('Something went wrong');
+      console.log(error);
     }
   };
   return (
@@ -143,7 +145,7 @@ export default function UpdatePost() {
           />
           <Button
             type='button'
-            gradientDuoTone='purpleToBlue'
+            color='blue'
             size='sm'
             outline
             onClick={handleUpdloadImage}
@@ -179,7 +181,7 @@ export default function UpdatePost() {
             setFormData({ ...formData, content: value });
           }}
         />
-        <Button type='submit' gradientDuoTone='purpleToPink'>
+        <Button type='submit' color='purple'>
           Update post
         </Button>
         {publishError && (

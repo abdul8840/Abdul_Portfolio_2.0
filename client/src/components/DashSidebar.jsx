@@ -1,5 +1,5 @@
-import { Sidebar } from "flowbite-react";
-import React, { useEffect, useState } from "react";
+import { Sidebar, SidebarItem, SidebarItemGroup, SidebarItems } from "flowbite-react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { HiUser, HiArrowSmRight, HiDocumentText, HiOutlineUserGroup, HiChartPie } from "react-icons/hi";
 import { MdContactPage } from "react-icons/md";
@@ -40,23 +40,23 @@ const DashSidebar = () => {
   };
   return (
     <Sidebar className="w-full md:w-56">
-      <Sidebar.Items>
-        <Sidebar.ItemGroup className="flex flex-col gap-1">
+      <SidebarItems>
+        <SidebarItemGroup className="flex flex-col gap-1">
 
         {currentUser.isAdmin && (
             <Link to="/dashboard?tab=dash">
-            <Sidebar.Item
+            <SidebarItem
               active={tab === "dash"}
               icon={HiChartPie}
               as="div"
             >
               Dashboard
-            </Sidebar.Item>
+            </SidebarItem>
           </Link>
           )}
 
           <Link to="/dashboard?tab=profile">
-            <Sidebar.Item
+            <SidebarItem
               active={tab === "profile"}
               icon={HiUser}
               label={currentUser.isAdmin ? 'Admin' : 'User'}
@@ -64,90 +64,90 @@ const DashSidebar = () => {
               as="div"
             >
               Profile
-            </Sidebar.Item>
+            </SidebarItem>
           </Link>
 
           {currentUser.isAdmin && (
             <Link to="/dashboard?tab=posts">
-            <Sidebar.Item
+            <SidebarItem
               active={tab === "posts"}
               icon={HiDocumentText}
               as="div"
             >
               Posts
-            </Sidebar.Item>
+            </SidebarItem>
           </Link>
           )}
 
           {currentUser.isAdmin && (
             <Link to="/dashboard?tab=skills">
-            <Sidebar.Item
+            <SidebarItem
               active={tab === "skills"}
               icon={GiSkills}
               as="div"
             >
               Skills
-            </Sidebar.Item>
+            </SidebarItem>
           </Link>
           )}
 
           {currentUser.isAdmin && (
             <Link to="/dashboard?tab=services">
-            <Sidebar.Item
+            <SidebarItem
               active={tab === "services"}
               icon={FaServicestack}
               as="div"
             >
               Services
-            </Sidebar.Item>
+            </SidebarItem>
           </Link>
           )}
 
           {currentUser.isAdmin && (
             <Link to="/dashboard?tab=ratings">
-            <Sidebar.Item
+            <SidebarItem
               active={tab === "ratings"}
               icon={MdFeedback}
               as="div"
             >
               Ratings
-            </Sidebar.Item>
+            </SidebarItem>
           </Link>
           )}
 
           {currentUser.isAdmin && (
             <Link to="/dashboard?tab=users">
-            <Sidebar.Item
+            <SidebarItem
               active={tab === "users"}
               icon={HiOutlineUserGroup}
               as="div"
             >
               Users
-            </Sidebar.Item>
+            </SidebarItem>
           </Link>
           )}
 
           {currentUser.isAdmin && (
             <Link to="/dashboard?tab=contact">
-            <Sidebar.Item
+            <SidebarItem
               active={tab === "contact"}
               icon={MdContactPage}
               as="div"
             >
               Contact
-            </Sidebar.Item>
+            </SidebarItem>
           </Link>
           )}
 
-          <Sidebar.Item
+          <SidebarItem
             icon={HiArrowSmRight}
             className="cursor-pointer"
             onClick={handleSignout}
           >
             Sign Out
-          </Sidebar.Item>
-        </Sidebar.ItemGroup>
-      </Sidebar.Items>
+          </SidebarItem>
+        </SidebarItemGroup>
+      </SidebarItems>
     </Sidebar>
   );
 };

@@ -1,8 +1,18 @@
 import { Button } from "flowbite-react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { Modal, Table } from 'flowbite-react';
+import {
+  Modal,
+  ModalBody,
+  ModalHeader,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeadCell,
+  TableRow,
+} from 'flowbite-react';
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 
 const DashSkills = () => {
@@ -30,7 +40,7 @@ const DashSkills = () => {
     if(currentUser.isAdmin){
       fetchSkills();
     }
-  }, [currentUser._id])
+  }, [currentUser._id, currentUser.isAdmin])
 
   const handleShowMore = async () => {
     const startIndex = userSkills.length;
@@ -74,28 +84,28 @@ const DashSkills = () => {
     <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500'>
       <div className="w-full flex justify-end mt-2 mb-2">
       <Link to="/create-skill">
-        <Button gradientDuoTone="purpleToPink">Add Skill</Button>
+        <Button color='purple'>Add Skill</Button>
       </Link>
       </div>
 
       {currentUser.isAdmin && userSkills.length > 0 ? (
         <>
           <Table hoverable className='shadow-md'>
-            <Table.Head>
-              <Table.HeadCell>Date updated</Table.HeadCell>
-              <Table.HeadCell>Skill image</Table.HeadCell>
-              <Table.HeadCell>Technology</Table.HeadCell>
-              <Table.HeadCell>Category</Table.HeadCell>
-              <Table.HeadCell>Level</Table.HeadCell>
-              <Table.HeadCell>Delete</Table.HeadCell>
-            </Table.Head>
+            <TableHead>
+              <TableHeadCell>Date updated</TableHeadCell>
+              <TableHeadCell>Skill image</TableHeadCell>
+              <TableHeadCell>Technology</TableHeadCell>
+              <TableHeadCell>Category</TableHeadCell>
+              <TableHeadCell>Level</TableHeadCell>
+              <TableHeadCell>Delete</TableHeadCell>
+            </TableHead>
             {userSkills.map((skill) => (
-              <Table.Body className='divide-y'>
-                <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
-                  <Table.Cell>
+              <TableBody className='divide-y' key={skill._id}>
+                <TableRow className='bg-white dark:border-gray-700 dark:bg-gray-800'>
+                  <TableCell>
                     {new Date(skill.updatedAt).toLocaleDateString()}
-                  </Table.Cell>
-                  <Table.Cell>
+                  </TableCell>
+                  <TableCell>
                     <Link to={`/`}>
                       <img
                         src={skill.image}
@@ -103,18 +113,18 @@ const DashSkills = () => {
                         className='w-20 h-10 object-cover bg-gray-500'
                       />
                     </Link>
-                  </Table.Cell>
-                  <Table.Cell>
+                  </TableCell>
+                  <TableCell>
                     <Link
                       className='font-medium text-gray-900 dark:text-white'
                       to={`/`}
                     >
                       {skill.technology}
                     </Link>
-                  </Table.Cell>
-                  <Table.Cell>{skill.category}</Table.Cell>
-                  <Table.Cell>{skill.percent}%</Table.Cell>
-                  <Table.Cell>
+                  </TableCell>
+                  <TableCell>{skill.category}</TableCell>
+                  <TableCell>{skill.percent}%</TableCell>
+                  <TableCell>
                   <span
                       onClick={() => {
                         setShowModal(true);
@@ -124,9 +134,9 @@ const DashSkills = () => {
                     >
                       Delete
                     </span>
-                  </Table.Cell>
-                </Table.Row>
-              </Table.Body>
+                  </TableCell>
+                </TableRow>
+              </TableBody>
             ))}
           </Table>
           {
@@ -147,8 +157,8 @@ const DashSkills = () => {
         popup
         size="md"
       >
-        <Modal.Header />
-        <Modal.Body>
+        <ModalHeader />
+        <ModalBody>
           <div className="text-center">
             <HiOutlineExclamationCircle className="h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto" />
             <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400">
@@ -156,14 +166,14 @@ const DashSkills = () => {
             </h3>
             <div className="flex justify-center gap-4">
               <Button color="failure" onClick={handleDeleteSkill}>
-                Yes, I'm sure
+                Yes, I&apos;m sure
               </Button>
               <Button color="gray" onClick={() => setShowModal(false)}>
                 No, cancel
               </Button>
             </div>
           </div>
-        </Modal.Body>
+        </ModalBody>
       </Modal>
       
       

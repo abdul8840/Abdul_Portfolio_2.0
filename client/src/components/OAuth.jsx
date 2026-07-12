@@ -1,5 +1,4 @@
 import { Button } from 'flowbite-react';
-import React from 'react';
 import { AiFillGoogleCircle } from 'react-icons/ai';
 import { GoogleAuthProvider, signInWithPopup, getAuth } from 'firebase/auth';
 import { app } from '../firebase';
@@ -49,7 +48,7 @@ const OAuth = () => {
   return (
     <Button
       outline
-      gradientDuoTone="purpleToPink"
+      color='purple'
       type='button'
       className='w-full mt-5'
       onClick={handleGoogleClick}
