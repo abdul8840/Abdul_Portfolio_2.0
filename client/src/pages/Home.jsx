@@ -6,18 +6,28 @@ import Services from '../components/Services'
 import GithubStats from '../components/GithubStats'
 import Review from '../components/Review'
 import Contact from '../components/Contact'
+import Sidebar from '../components/Sidebar'
+import HomeTopBar from '../components/HomeTopBar'
+import Footer from '../components/Footer'
 
 const Home = () => {
   return (
-    <div className='max-w-5xl mx-auto p-3'>
-      <Hero />
-      <About />
-      <MySkills />
-      <Services />
-      <Portfolio />
-      <GithubStats />
-      <Review />
-      <Contact />
+    <div className="md:flex">
+      <Sidebar />
+      <div className="flex-1 md:ml-64">
+        <HomeTopBar />
+        <div className="max-w-5xl mx-auto p-3 pt-20 md:pt-3">
+          <section id="home" className="scroll-mt-20"><Hero /></section>
+          <section id="about" className="scroll-mt-20"><About /></section>
+          <section id="skills" className="scroll-mt-20"><MySkills /></section>
+          <section id="services" className="scroll-mt-20"><Services /></section>
+          <section id="portfolio" className="scroll-mt-20"><Portfolio /></section>
+          <section id="github" className="scroll-mt-20"><GithubStats /></section>
+          <section id="testimonials" className="scroll-mt-20"><Review /></section>
+          <section id="contact" className="scroll-mt-20"><Contact /></section>
+        </div>
+        <Footer />
+      </div>
     </div>
   )
 }
