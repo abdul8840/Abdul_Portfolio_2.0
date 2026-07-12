@@ -1,18 +1,22 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { FaGithub, FaInstagram, FaLinkedin, FaTwitter } from 'react-icons/fa';
 import { HiMenu, HiX } from 'react-icons/hi';
 import AuthThemeControls from './AuthThemeControls';
 
 const NAV_ITEMS = [
-  { id: 'home', label: 'Home' },
-  { id: 'about', label: 'About' },
-  { id: 'skills', label: 'Skills' },
-  { id: 'services', label: 'Services' },
-  { id: 'portfolio', label: 'Portfolio' },
-  { id: 'github', label: 'GitHub' },
-  { id: 'testimonials', label: 'Testimonials' },
-  { id: 'contact', label: 'Contact' },
+  { id: 'home', label: 'Home', type: 'scroll' },
+  { id: 'about', label: 'About', type: 'scroll' },
+  { id: 'skills', label: 'Skills', type: 'scroll' },
+  { id: 'services', label: 'Services', type: 'scroll' },
+  { id: 'portfolio', label: 'Portfolio', type: 'scroll' },
+  { path: '/projects', label: 'Projects', type: 'route' },
+  { id: 'github', label: 'GitHub', type: 'scroll' },
+  { id: 'testimonials', label: 'Testimonials', type: 'scroll' },
+  { id: 'contact', label: 'Contact', type: 'scroll' },
 ];
+
+const SCROLL_ITEMS = NAV_ITEMS.filter((item) => item.type === 'scroll');
 
 const NAV_ITEM_STEP = 44;
 
@@ -21,9 +25,9 @@ const Sidebar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    const sections = NAV_ITEMS.map((item) => document.getElementById(item.id)).filter(
-      Boolean
-    );
+    const sections = SCROLL_ITEMS.map((item) =>
+      document.getElementById(item.id)
+    ).filter(Boolean);
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -56,21 +60,33 @@ const Sidebar = () => {
         className="absolute left-0 w-1 h-9 rounded-full bg-gradient-to-b from-pink-500 to-purple-600 transition-transform duration-500 ease-out"
         style={{ transform: `translateY(${activeIndex * NAV_ITEM_STEP}px)` }}
       />
-      {NAV_ITEMS.map((item) => (
-        <li key={item.id} className="h-9">
-          <button
-            type="button"
-            onClick={() => handleNavClick(item.id)}
-            className={`h-9 pl-6 w-full flex items-center text-left uppercase text-sm font-semibold tracking-wide transition-colors duration-300 ${
-              activeId === item.id
-                ? 'text-white'
-                : 'text-gray-400 hover:text-gray-200'
-            }`}
-          >
-            {item.label}
-          </button>
-        </li>
-      ))}
+      {NAV_ITEMS.map((item) =>
+        item.type === 'route' ? (
+          <li key={item.path} className="h-9">
+            <Link
+              to={item.path}
+              onClick={() => setMobileOpen(false)}
+              className="h-9 pl-6 w-full flex items-center text-left uppercase text-sm font-semibold tracking-wide transition-colors duration-300 text-gray-400 hover:text-gray-200"
+            >
+              {item.label}
+            </Link>
+          </li>
+        ) : (
+          <li key={item.id} className="h-9">
+            <button
+              type="button"
+              onClick={() => handleNavClick(item.id)}
+              className={`h-9 pl-6 w-full flex items-center text-left uppercase text-sm font-semibold tracking-wide transition-colors duration-300 ${
+                activeId === item.id
+                  ? 'text-white'
+                  : 'text-gray-400 hover:text-gray-200'
+              }`}
+            >
+              {item.label}
+            </button>
+          </li>
+        )
+      )}
     </ul>
   );
 

@@ -63,7 +63,7 @@ const ReviewPage = () => {
 
 
   return (
-    <div className="p-3 max-w-5xl mx-auto min-h-screen mt-10">
+    <div className="p-3 pt-20 max-w-5xl mx-auto min-h-screen mt-10">
       <div className="mb-10">
         <h2 className="text-center text-4xl font-bold">Testimonials</h2>
         <p className="text-center text-lg font-semibold text-gray-500">

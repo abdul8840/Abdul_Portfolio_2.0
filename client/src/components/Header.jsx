@@ -1,101 +1,68 @@
-import {
-  Avatar,
-  Button,
-  Dropdown,
-  DropdownDivider,
-  DropdownHeader,
-  DropdownItem,
-  Navbar,
-  NavbarCollapse,
-  NavbarLink,
-  NavbarToggle,
-} from 'flowbite-react';
+import { Navbar, NavbarCollapse, NavbarLink, NavbarToggle } from 'flowbite-react';
 import { Link, useLocation } from 'react-router-dom';
-import { FaMoon, FaSun } from 'react-icons/fa';
-import { useDispatch, useSelector } from 'react-redux';
-import {toggleTheme} from '../redux/theme/themeSlice';
-import { signoutSuccess } from '../redux/user/userSlice';
+import { useEffect, useState } from 'react';
+import AuthThemeControls from './AuthThemeControls';
+
+const NAV_LINKS = [
+  { to: '/', label: 'Home' },
+  { to: '/projects', label: 'Projects' },
+  { to: '/reviews', label: 'Testimonials' },
+];
+
+const navLinkClass = (active) =>
+  `relative inline-block py-2 pr-4 pl-3 md:p-0 transition-colors duration-300 after:content-[''] after:absolute after:-bottom-1 after:left-3 after:right-4 md:after:left-0 md:after:right-0 after:h-0.5 after:bg-gradient-to-r after:from-pink-500 after:to-purple-600 after:transition-all after:duration-300 ${
+    active
+      ? 'font-semibold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-600 after:scale-x-100'
+      : 'hover:text-pink-500 after:scale-x-0 hover:after:scale-x-100'
+  }`;
 
 const Header = () => {
-  const path = useLocation().pathname; 
-  const {currentUser} = useSelector((state) => state.user);
-  const {theme} = useSelector((state) => state.theme);
-  const dispatch = useDispatch();
+  const path = useLocation().pathname;
+  const isHome = path === '/';
+  const [scrolled, setScrolled] = useState(false);
 
-  const handleSignout = async () => {
-    try {
-      const res = await fetch('/api/user/signout', {
-        method: 'POST',
-      });
-      const data = await res.json()
-      if(!res.ok) {
-        console.log(data.message)
-      } else {
-        dispatch(signoutSuccess());
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
-  }
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    onScroll();
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   return (
-    <div className="border-b-2">
-      <Navbar className='max-w-5xl mx-auto flex justify-between items-center'>
-        <Link to='/' className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white'>
-          Abdul
+    <div
+      className={`fixed top-0 right-0 left-0 z-40 h-20 flex items-center transition-all duration-300 border-b ${
+        isHome ? 'hidden md:flex md:left-64' : ''
+      } ${
+        scrolled
+          ? 'bg-white/85 dark:bg-[rgb(16,23,42)]/85 backdrop-blur-md shadow-md border-gray-200/60 dark:border-gray-800/60'
+          : 'bg-white/60 dark:bg-[rgb(16,23,42)]/60 backdrop-blur-sm border-transparent'
+      }`}
+    >
+      <Navbar className="max-w-5xl w-full mx-auto flex justify-between items-center bg-transparent px-4">
+        <Link
+          to="/"
+          className="self-center whitespace-nowrap text-sm sm:text-xl font-bold dark:text-white"
+        >
+          Abdul<span className="text-pink-500">.</span>
         </Link>
-        
+
         <div className="flex gap-2 md:order-2">
-          <Button className='w-12 h-10 hidden sm:inline' color='gray' pill onClick={() => dispatch(toggleTheme())}>
-            {theme === 'light' ? <FaSun /> : <FaMoon />}
-          </Button>
-
-          {currentUser ? (
-            <Dropdown
-            arrowIcon={false}
-            inline={true}
-            label={
-              <Avatar
-              alt="User"
-              img={currentUser.profilePitcture}
-              rounded={true}
-              />
-            }
-            >
-              <DropdownHeader>
-                <span className='block text-sm'>@{currentUser.username}</span>
-                <span className='block text-sm font-medium truncate'>{currentUser.email}</span>
-              </DropdownHeader>
-              <Link to='/dashboard?tab=profile'>
-              <DropdownItem>Profile</DropdownItem>
-              </Link>
-              <DropdownDivider />
-              <DropdownItem onClick={handleSignout}>Sign Out</DropdownItem>
-            </Dropdown>
-          ) : (
-            <Link to='/sign-in'>
-            <Button color='blue' outline>
-              Sign In
-            </Button>
-          </Link>
-          )}
-          
-          
-
+          <AuthThemeControls />
           <NavbarToggle />
         </div>
 
-        <NavbarCollapse className="md:max-w-20 md:flex md:items-center dark:text-white">
-          <NavbarLink active={path === '/'} as='div'>
-            <Link to='/' className={path === '/' ? 'text-blue-500 block py-2 pr-4 pl-3 md:p-0' : 'block py-2 pr-4 pl-3 md:p-0'}>Home</Link>
-          </NavbarLink>
-          <NavbarLink active={path === '/about'} as='div'>
-            <Link to='/reviews' className={path === '/reviews' ? 'text-blue-500 block py-2 pr-4 pl-3 md:p-0' : 'block py-2 pr-4 pl-3 md:p-0'}>Testimonials</Link>
-          </NavbarLink>
+        <NavbarCollapse className="md:max-w-40 md:flex md:items-center dark:text-white">
+          {NAV_LINKS.map((link) => (
+            <NavbarLink key={link.to} active={path === link.to} as="div">
+              <Link to={link.to} className={navLinkClass(path === link.to)}>
+                {link.label}
+              </Link>
+            </NavbarLink>
+          ))}
         </NavbarCollapse>
       </Navbar>
     </div>
   );
-}
+};
 
 export default Header;

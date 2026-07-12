@@ -13,6 +13,7 @@ import CreateSkill from './pages/CreateSkill';
 import CreateService from './pages/CreateService';
 import CraeteReview from './pages/CraeteReview';
 import ReviewPage from './pages/ReviewPage';
+import Projects from './pages/Projects';
 import Footer from './components/Footer';
 
 const AppLayout = () => {
@@ -21,7 +22,7 @@ const AppLayout = () => {
 
   return (
     <>
-      {!isHome && <Header />}
+      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
@@ -38,6 +39,7 @@ const AppLayout = () => {
         </Route>
         <Route path='/create-rating' element={<CraeteReview />} />
         <Route path='/reviews' element={<ReviewPage />} />
+        <Route path='/projects' element={<Projects />} />
       </Routes>
       {!isHome && <Footer />}
     </>

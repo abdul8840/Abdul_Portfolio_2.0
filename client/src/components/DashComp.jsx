@@ -16,6 +16,7 @@ import {
   TableRow,
 } from 'flowbite-react';
 import { Link } from 'react-router-dom';
+import { getCategoryLabel } from '../utils/projectCategories';
 
 const DashComp = () => {
   const [users, setUsers] = useState([]);
@@ -286,7 +287,7 @@ const DashComp = () => {
                     />
                   </TableCell>
                   <TableCell className='w-96'>{post.title}</TableCell>
-                  <TableCell className='w-5'>{post.category}</TableCell>
+                  <TableCell className='w-5'>{getCategoryLabel(post.category)}</TableCell>
                 </TableRow>
               </TableBody>
             ))}

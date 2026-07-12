@@ -3,6 +3,7 @@ import { useState } from 'react'
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import { uploadImage } from '../utils/uploadImage';
+import { PROJECT_CATEGORIES } from '../utils/projectCategories';
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { useNavigate } from 'react-router-dom';
@@ -63,7 +64,7 @@ const CreatePost = () => {
     }
   }
   return (
-    <div className='p-3 max-w-3xl mx-auto min-h-screen'>
+    <div className='p-3 pt-20 max-w-3xl mx-auto min-h-screen'>
       <h1 className='text-center text-3xl my-7 font-semibold'>Create Post</h1>
       <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
         <div className="flex flex-col gap-4 sm:flex-row justify-between">
@@ -83,13 +84,11 @@ const CreatePost = () => {
           }
           >
             <option value="uncategorized">Select a category</option>
-            <option value="nodejs">Node Js</option>
-            <option value="reactjs">React Js</option>
-            <option value="nextjs">Next Js</option>
-            <option value="javascript">JavaScript</option>
-            <option value="python">Python</option>
-            <option value="java">Java</option>
-            <option value="reactnative">React Native</option>
+            {PROJECT_CATEGORIES.map((category) => (
+              <option key={category.value} value={category.value}>
+                {category.label}
+              </option>
+            ))}
           </Select>
         </div>
         <TextInput 

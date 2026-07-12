@@ -7,7 +7,6 @@ import GithubStats from '../components/GithubStats'
 import Review from '../components/Review'
 import Contact from '../components/Contact'
 import Sidebar from '../components/Sidebar'
-import HomeTopBar from '../components/HomeTopBar'
 import Footer from '../components/Footer'
 
 const Home = () => {
@@ -15,8 +14,7 @@ const Home = () => {
     <div className="md:flex">
       <Sidebar />
       <div className="flex-1 md:ml-64">
-        <HomeTopBar />
-        <div className="max-w-5xl mx-auto p-3 pt-20 md:pt-3">
+        <div className="max-w-5xl mx-auto p-3 pt-20">
           <section id="home" className="scroll-mt-20"><Hero /></section>
           <section id="about" className="scroll-mt-20"><About /></section>
           <section id="skills" className="scroll-mt-20"><MySkills /></section>

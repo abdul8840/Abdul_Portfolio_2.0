@@ -14,6 +14,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { getCategoryLabel } from '../utils/projectCategories';
 
 export default function DashPosts() {
   const { currentUser } = useSelector((state) => state.user);
@@ -123,7 +124,7 @@ export default function DashPosts() {
                       {post.title}
                     </Link>
                   </TableCell>
-                  <TableCell>{post.category}</TableCell>
+                  <TableCell>{getCategoryLabel(post.category)}</TableCell>
                   <TableCell>
                   <span
                       onClick={() => {

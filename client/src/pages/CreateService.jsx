@@ -61,7 +61,7 @@ const CreateService = () => {
   }
 
   return (
-    <div className='p-3 max-w-3xl mx-auto min-h-screen'>
+    <div className='p-3 pt-20 max-w-3xl mx-auto min-h-screen'>
       <h1 className='text-center text-3xl my-7 font-semibold'>Create Service</h1>
       <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
         <div className="flex flex-col gap-4 sm:flex-row justify-between">

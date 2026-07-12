@@ -1,57 +1,32 @@
-import { Modal, ModalBody, ModalHeader } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { FaArrowRightLong } from "react-icons/fa6";
+import { Link } from "react-router-dom";
+import ProjectCard from "./ProjectCard";
+import { PROJECT_CATEGORIES } from "../utils/projectCategories";
+
+const TABS = [{ value: "all", label: "All" }, ...PROJECT_CATEGORIES];
 
 const Portfolio = () => {
-  const [userPosts, setUserPosts] = useState([]);
-  const [filteredPosts, setFilteredPosts] = useState([]);
-  const [item, setItem] = useState({ category: "all" });
-  const [active, setActive] = useState(0);
-  const [showModal, setShowModal] = useState(false);
-  const [selectedPost, setSelectedPost] = useState(null);
+  const [posts, setPosts] = useState([]);
+  const [activeCategory, setActiveCategory] = useState("all");
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await fetch(`/api/post/getpost`);
+        const query =
+          activeCategory === "all"
+            ? "limit=4"
+            : `limit=4&category=${activeCategory}`;
+        const res = await fetch(`/api/post/getposts?${query}`);
         const data = await res.json();
         if (res.ok) {
-          setUserPosts(data);
-          setFilteredPosts(data);
+          setPosts(data.posts);
         }
       } catch (error) {
         console.log(error.message);
       }
     };
     fetchPosts();
-  }, []);
-
-  useEffect(() => {
-    if (item.category === "all") {
-      setFilteredPosts(userPosts);
-    } else {
-      const filtered = userPosts.filter(
-        (post) => post.category === item.category
-      );
-      setFilteredPosts(filtered);
-    }
-  }, [item, userPosts]);
-
-  const handleClick = (e, index) => {
-    setItem({ category: e.target.textContent });
-    setActive(index);
-  };
-
-  const handleViewMoreClick = (post) => {
-    setSelectedPost(post);
-    setShowModal(true);
-  };
-
-  // Get unique categories for the filter
-  const categories = [
-    "all",
-    ...new Set(userPosts.map((post) => post.category)),
-  ];
+  }, [activeCategory]);
 
   return (
     <div className="min-h-screen pt-10">
@@ -62,78 +37,42 @@ const Portfolio = () => {
         </p>
         <div className="mt-10">
           <div className="flex flex-wrap justify-center items-center gap-5 mb-6">
-            {categories.map((category, index) => (
+            {TABS.map((tab) => (
               <span
-                onClick={(e) => handleClick(e, index)}
+                key={tab.value}
+                onClick={() => setActiveCategory(tab.value)}
                 className={`${
-                  active === index ? "bg-[#333] text-white" : ""
+                  activeCategory === tab.value ? "bg-[#333] text-white" : ""
                 } py-2 px-3 rounded-[7px] uppercase cursor-pointer`}
-                key={index}
               >
-                {category}
+                {tab.label}
               </span>
             ))}
           </div>
           <div className="flex flex-wrap gap-10 justify-center">
-            {filteredPosts.map((post) => (
-              <div
-                className="border-2 border-gray-500 rounded-[1rem] p-[1.25rem]"
-                key={post._id}
-              >
-                <img
-                  src={post.image}
-                  alt={post.title}
-                  className="w-[295px] h-[180px] rounded-[1rem] mb-3"
-                />
-                <h1 className="text-xl font-bold">{post.title}</h1>
-                <p className="text-lg mt-2 mb-5 font-semibold text-gray-600">
-                  {post.description}
-                </p>
-                {/* Render other post details here */}
-                <span
-                  className="mt-5 flex gap-1 text-gray-500 cursor-pointer"
-                  onClick={() => handleViewMoreClick(post)}
-                >
-                  View More <FaArrowRightLong className="mt-[7px]" />
-                </span>
-              </div>
+            {posts.map((post) => (
+              <ProjectCard key={post._id} post={post} />
             ))}
+          </div>
+          {posts.length === 0 && (
+            <p className="text-center text-gray-500">
+              No projects in this category yet.
+            </p>
+          )}
+          <div className="flex justify-center mt-10">
+            <Link
+              to={
+                activeCategory === "all"
+                  ? "/projects"
+                  : `/projects?category=${activeCategory}`
+              }
+              className="flex items-center gap-2 py-3 px-6 bg-[#222] hover:bg-[#111] text-white dark:bg-white dark:text-black font-bold rounded-[20px]"
+            >
+              View More Projects
+            </Link>
           </div>
         </div>
       </div>
-      {selectedPost && (
-        <Modal
-          show={showModal}
-          size="md"
-          onClose={() => setShowModal(false)}
-          popup
-          className="mb-10"
-        >
-          <ModalHeader />
-          <ModalBody>
-            <div>
-              <img
-                className="w-full mb-5"
-                src={selectedPost.image}
-                alt="Post Image"
-              />
-              <h1 className="text-2xl font-bold text-center">
-                {selectedPost.title}
-              </h1>
-              <h3 className="text-lg text-gray-500 font-semibold text-center">
-                {selectedPost.description}
-              </h3>
-              <hr className="mt-5 mb-4" />
-              <div
-                className="p-3 max-w-2xl mx-auto w-full post-content"
-                dangerouslySetInnerHTML={{
-                  __html: selectedPost.content,
-                }}
-              ></div>
-            </div>
-          </ModalBody>
-        </Modal>
-      )}
     </div>
   );
 };
