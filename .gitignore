@@ -26,7 +26,3 @@ dist-ssr
 
 .env
 *.env
-
-# Uploaded user files
-uploads/*
-!uploads/.gitkeep

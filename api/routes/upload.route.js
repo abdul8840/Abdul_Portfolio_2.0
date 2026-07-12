@@ -1,21 +1,11 @@
 import express from 'express';
 import multer from 'multer';
-import path from 'path';
 import { verifyToken } from '../utils/verifyUser.js';
 import { uploadFile } from '../controllers/upload.controller.js';
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, path.join(path.resolve(), 'uploads'));
-  },
-  filename: (req, file, cb) => {
-    const safeName = file.originalname.replace(/[^a-zA-Z0-9.\-_]/g, '-');
-    cb(null, `${Date.now()}-${safeName}`);
-  },
-});
+import { errorHandler } from '../utils/error.js';
 
 const upload = multer({
-  storage,
+  storage: multer.memoryStorage(),
   limits: { fileSize: 2 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
     if (!file.mimetype.startsWith('image/')) {
@@ -25,8 +15,20 @@ const upload = multer({
   },
 });
 
+const handleUpload = (req, res, next) => {
+  upload.single('image')(req, res, (err) => {
+    if (err instanceof multer.MulterError && err.code === 'LIMIT_FILE_SIZE') {
+      return next(errorHandler(400, 'Image must be less than 2MB'));
+    }
+    if (err) {
+      return next(errorHandler(400, err.message));
+    }
+    next();
+  });
+};
+
 const router = express.Router();
 
-router.post('/', verifyToken, upload.single('image'), uploadFile);
+router.post('/', verifyToken, handleUpload, uploadFile);
 
 export default router;
