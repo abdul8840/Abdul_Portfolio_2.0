@@ -9,6 +9,7 @@ import serviceRoutes from './routes/service.route.js';
 import ratingRoutes from './routes/rating.route.js';
 import contactRoutes from './routes/contact.route.js';
 import uploadRoutes from './routes/upload.route.js';
+import githubRoutes from './routes/github.route.js';
 import cookieParser from 'cookie-parser';
 import path from 'path';
 
@@ -41,6 +42,7 @@ app.use('/api/service', serviceRoutes);
 app.use('/api/rating', ratingRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/github', githubRoutes);
 
 app.use(express.static(path.join(__dirname, '/client/dist')));
 
