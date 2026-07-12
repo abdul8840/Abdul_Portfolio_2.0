@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { FaUserAlt, FaTrash } from "react-icons/fa";
+import { motion } from "motion/react";
+import Reveal from "./Reveal";
+import { StaggerGroup, StaggerItem } from "./StaggerGroup";
 
 const Review = () => {
   const [userRating, setUserRating] = useState([]);
@@ -63,12 +66,13 @@ const Review = () => {
 
   return (
     <div id="review" className="mb-20">
-      <div className="mb-6">
+      <Reveal className="mb-6">
         <h2 className="text-center text-4xl font-bold">Testimonials</h2>
         <p className="text-center text-lg font-semibold text-gray-500">
           My Clients
         </p>
-      </div>
+        <div className="h-1 w-20 mx-auto mt-4 rounded-full bg-linear-to-r from-pink-500 to-purple-600" />
+      </Reveal>
 
       <div className="mb-4 flex justify-between">
             <div className="">
@@ -79,19 +83,21 @@ const Review = () => {
             </div>
             <div className="">
               <Link to="/create-rating">
-                <button
+                <motion.button
                   type="button"
-                  className="border-2 border-gray-800 py-1 px-3 font-bold rounded-md hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="border-2 border-gray-800 dark:border-gray-500 py-1 px-3 font-bold rounded-md hover:border-pink-500 hover:text-pink-500 dark:hover:border-pink-500 dark:hover:text-pink-500 transition-colors duration-300"
                 >
                   Add Testimonial
-                </button>
+                </motion.button>
               </Link>
             </div>
           </div>
 
       {userRating.length === 0 ? (
         <>
-        
+
         <p className="text-center text-lg my-5 font-semibold text-gray-500">
           No Testimonials Yet
         </p>
@@ -99,50 +105,56 @@ const Review = () => {
       ) : (
         <>
 
-          <div className="flex items-center overflow-x-scroll hide-scrollbar gap-5">
+          <StaggerGroup className="flex items-center overflow-x-scroll hide-scrollbar gap-5">
             {userRating.map((rating) => (
-              <div
-                className="w-[250px] border-2 border-gray-500 text-center rounded-[1rem] p-[1.25rem]"
-                key={rating._id}
-              >
-                {currentUser &&
-                  (currentUser._id === rating.userId || currentUser.isAdmin) && (
-                    <span
-                      onClick={() => handleDeleteRating(rating._id)}
-                      className="text-sm cursor-pointer float-end"
-                    >
-                      <FaTrash />
-                    </span>
-                  )}
-                <div className="">
-                  {userData[rating.userId]?.profilePicture ? (
-                    <img
-                      className="w-20 h-20 object-cover shadow-md shadow-gray-900 rounded-full block mx-auto my-4 border-4"
-                      src={userData[rating.userId].profilePicture}
-                      alt={userData[rating.userId].name}
-                    />
-                  ) : (
-                    <FaUserAlt className="w-20 h-20 block mx-auto my-4" />
-                  )}
-                </div>
-                <p className="text-xl font-bold">
-                  {userData[rating.userId]?.name || "Loading..."}
-                </p>
-                <p className="text-sm font-semibold mb-2">
-                  {userData[rating.userId]?.username || "Loading..."}
-                </p>
-                <p className="starability-result" data-rating={rating.rating}>
-                  Rated: {rating.rating} stars
-                </p>
-                <p className="mt-3 text-md">{rating.review}</p>
-              </div>
+              <StaggerItem key={rating._id}>
+                <motion.div
+                  whileHover={{ y: -8 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                  className="w-[250px] border-2 border-gray-300 dark:border-gray-700 text-center rounded-[1rem] p-[1.25rem] hover:border-pink-500 dark:hover:border-pink-500 hover:shadow-xl hover:shadow-pink-500/10 transition-[border-color,box-shadow] duration-300"
+                >
+                  {currentUser &&
+                    (currentUser._id === rating.userId || currentUser.isAdmin) && (
+                      <span
+                        onClick={() => handleDeleteRating(rating._id)}
+                        className="text-sm cursor-pointer float-end hover:text-red-500 transition-colors"
+                      >
+                        <FaTrash />
+                      </span>
+                    )}
+                  <div className="">
+                    {userData[rating.userId]?.profilePicture ? (
+                      <img
+                        className="w-20 h-20 object-cover shadow-md shadow-gray-900 rounded-full block mx-auto my-4 border-4 border-transparent hover:border-pink-500 transition-colors duration-300"
+                        src={userData[rating.userId].profilePicture}
+                        alt={userData[rating.userId].name}
+                      />
+                    ) : (
+                      <FaUserAlt className="w-20 h-20 block mx-auto my-4" />
+                    )}
+                  </div>
+                  <p className="text-xl font-bold">
+                    {userData[rating.userId]?.name || "Loading..."}
+                  </p>
+                  <p className="text-sm font-semibold mb-2">
+                    {userData[rating.userId]?.username || "Loading..."}
+                  </p>
+                  <p className="starability-result" data-rating={rating.rating}>
+                    Rated: {rating.rating} stars
+                  </p>
+                  <p className="mt-3 text-md">{rating.review}</p>
+                </motion.div>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerGroup>
         </>
       )}
       <div className="mt-5 text-center">
-        <Link to="/create-rating">
-          <span className="text-cyan-500">See More Testimonials</span>
+        <Link
+          to="/create-rating"
+          className="relative inline-block text-cyan-500 after:content-[''] after:absolute after:-bottom-0.5 after:left-0 after:h-0.5 after:w-0 after:bg-cyan-500 after:transition-all after:duration-300 hover:after:w-full"
+        >
+          See More Testimonials
         </Link>
       </div>
     </div>

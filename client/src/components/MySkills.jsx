@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import { motion } from "motion/react";
+import Reveal from "./Reveal";
+import { StaggerGroup, StaggerItem } from "./StaggerGroup";
 
 const MySkills = () => {
   const [userSkills, setUserSkills] = useState([]);
@@ -14,8 +17,8 @@ const MySkills = () => {
         const res = await fetch(`/api/skill/getskill`);
         const data = await res.json();
         if (res.ok) {
-          setUserSkills(data); 
-          setFilteredSkills(data); 
+          setUserSkills(data);
+          setFilteredSkills(data);
         }
       } catch (error) {
         console.log(error);
@@ -35,8 +38,8 @@ const MySkills = () => {
     }
   }, [item, userSkills]);
 
-  const handleClick = (e, index) => {
-    setItem({ category: e.target.textContent });
+  const handleClick = (category, index) => {
+    setItem({ category });
     setActive(index);
   };
 
@@ -47,54 +50,72 @@ const MySkills = () => {
 
   return (
     <div className="mt-20 mb-20">
-      <div className="mb-6">
+      <Reveal className="mb-6">
         <h2 className="text-center text-4xl font-bold">My Skills</h2>
         <p className="text-center text-lg font-semibold text-gray-500">
           My Technical Level
         </p>
-      </div>
+        <div className="h-1 w-20 mx-auto mt-4 rounded-full bg-linear-to-r from-pink-500 to-purple-600" />
+      </Reveal>
 
-      <div className="flex flex-wrap justify-center items-center gap-5 mb-6">
+      <div className="flex flex-wrap justify-center items-center gap-3 mb-6">
         {categories.map((category, index) => (
-          <span
-            onClick={(e) => handleClick(e, index)}
-            className={`${
-              active === index ? "bg-[#333] text-white" : ""
-            } py-2 px-3 rounded-[7px] uppercase cursor-pointer`}
-            key={index}
+          <button
+            type="button"
+            key={category}
+            onClick={() => handleClick(category, index)}
+            className={`relative py-2 px-4 rounded-[7px] uppercase cursor-pointer text-sm font-semibold transition-colors duration-300 ${
+              active === index
+                ? "text-white"
+                : "text-gray-600 dark:text-gray-300 hover:text-pink-500"
+            }`}
           >
+            {active === index && (
+              <motion.span
+                layoutId="skillTabPill"
+                className="absolute inset-0 rounded-[7px] bg-linear-to-r from-pink-500 to-purple-600 pointer-events-none -z-10"
+                transition={{ type: "spring", stiffness: 350, damping: 30 }}
+              />
+            )}
             {category}
-          </span>
+          </button>
         ))}
       </div>
 
-      <div className="w-full flex flex-wrap items-center justify-center gap-10 md:gap-5">
+      <StaggerGroup className="w-full flex flex-wrap items-center justify-center gap-10 md:gap-5">
         {filteredSkills.map((skill) => (
-          <div key={skill._id} className="w-36 h-36 mt-10">
-            <CircularProgressbarWithChildren
-              value={skill.percent}
-              styles={{
-                path: {
-                  stroke: '#D044CA',
-                  padding: "10px",
-                },
-              }}
+          <StaggerItem key={skill._id} className="w-36 h-36 mt-10">
+            <motion.div
+              whileHover={{ y: -6, scale: 1.06 }}
+              transition={{ type: "spring", stiffness: 300 }}
             >
-              <img
-                style={{ width: 70, marginTop: -5 }}
-                src={skill.image}
-                alt={skill.technology}
-              />
-              <div style={{ fontSize: 20, marginTop: -5 }}>
-                <strong className="text-sm">{skill.percent}%</strong>
+              <div className="rounded-full transition-shadow duration-300 hover:shadow-[0_0_25px_rgba(219,39,119,0.35)]">
+                <CircularProgressbarWithChildren
+                  value={skill.percent}
+                  styles={{
+                    path: {
+                      stroke: "#D044CA",
+                      padding: "10px",
+                    },
+                  }}
+                >
+                  <img
+                    style={{ width: 70, marginTop: -5 }}
+                    src={skill.image}
+                    alt={skill.technology}
+                  />
+                  <div style={{ fontSize: 20, marginTop: -5 }}>
+                    <strong className="text-sm">{skill.percent}%</strong>
+                  </div>
+                </CircularProgressbarWithChildren>
               </div>
-            </CircularProgressbarWithChildren>
-            <h1 className="text-center mt-2 font-bold text-xl">
-              {skill.technology}
-            </h1>
-          </div>
+              <h1 className="text-center mt-2 font-bold text-xl">
+                {skill.technology}
+              </h1>
+            </motion.div>
+          </StaggerItem>
         ))}
-      </div>
+      </StaggerGroup>
     </div>
   );
 };

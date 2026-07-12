@@ -2,6 +2,7 @@ import { Button } from 'flowbite-react';
 import { AiFillGoogleCircle } from 'react-icons/ai';
 import { useGoogleLogin } from '@react-oauth/google';
 import { useDispatch } from 'react-redux';
+import { motion } from 'motion/react';
 import { signInFailure, signInSuccess } from '../redux/user/userSlice';
 import { useNavigate } from 'react-router-dom';
 
@@ -36,15 +37,17 @@ const OAuth = () => {
   });
 
   return (
-    <Button
-      outline
-      color='purple'
-      type='button'
-      className='w-full mt-5'
-      onClick={() => handleGoogleClick()}
-    >
-      <AiFillGoogleCircle className='w-6 h-6 mr-2' /> Continue With Google
-    </Button>
+    <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}>
+      <Button
+        outline
+        color='purple'
+        type='button'
+        className='w-full mt-5 hover:shadow-lg hover:shadow-purple-500/20 transition-shadow duration-300'
+        onClick={() => handleGoogleClick()}
+      >
+        <AiFillGoogleCircle className='w-6 h-6 mr-2' /> Continue With Google
+      </Button>
+    </motion.div>
   );
 };
 

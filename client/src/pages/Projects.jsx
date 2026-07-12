@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { motion } from 'motion/react';
 import ProjectCard from '../components/ProjectCard';
+import Reveal from '../components/Reveal';
+import { StaggerGroup, StaggerItem } from '../components/StaggerGroup';
 import { PROJECT_CATEGORIES } from '../utils/projectCategories';
 
 const TABS = [{ value: 'all', label: 'All' }, ...PROJECT_CATEGORIES];
@@ -58,32 +61,45 @@ const Projects = () => {
 
   return (
     <div className="p-3 pt-20 max-w-5xl mx-auto min-h-screen mt-10">
-      <div className="mb-10">
+      <Reveal className="mb-10">
         <h2 className="text-center text-4xl font-bold">My Projects</h2>
         <p className="text-center text-lg font-semibold text-gray-500">
           Everything I&apos;ve built, by category
         </p>
-      </div>
+        <div className="h-1 w-20 mx-auto mt-4 rounded-full bg-linear-to-r from-pink-500 to-purple-600" />
+      </Reveal>
 
-      <div className="flex flex-wrap justify-center items-center gap-5 mb-10">
+      <div className="flex flex-wrap justify-center items-center gap-3 mb-10">
         {TABS.map((tab) => (
-          <span
+          <button
+            type="button"
             key={tab.value}
             onClick={() => handleTabClick(tab.value)}
-            className={`${
-              activeCategory === tab.value ? 'bg-[#333] text-white' : ''
-            } py-2 px-3 rounded-[7px] uppercase cursor-pointer`}
+            className={`relative py-2 px-4 rounded-[7px] uppercase cursor-pointer text-sm font-semibold transition-colors duration-300 ${
+              activeCategory === tab.value
+                ? 'text-white'
+                : 'text-gray-600 dark:text-gray-300 hover:text-pink-500'
+            }`}
           >
+            {activeCategory === tab.value && (
+              <motion.span
+                layoutId="projectsTabPill"
+                className="absolute inset-0 rounded-[7px] bg-linear-to-r from-pink-500 to-purple-600 pointer-events-none -z-10"
+                transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+              />
+            )}
             {tab.label}
-          </span>
+          </button>
         ))}
       </div>
 
-      <div className="flex flex-wrap gap-10 justify-center">
+      <StaggerGroup className="flex flex-wrap gap-10 justify-center">
         {posts.map((post) => (
-          <ProjectCard key={post._id} post={post} />
+          <StaggerItem key={post._id}>
+            <ProjectCard post={post} />
+          </StaggerItem>
         ))}
-      </div>
+      </StaggerGroup>
 
       {posts.length === 0 && (
         <p className="text-center text-lg my-5 font-semibold text-gray-500">
@@ -93,13 +109,15 @@ const Projects = () => {
 
       {showMore && posts.length > 0 && (
         <div className="flex justify-center">
-          <button
+          <motion.button
             type="button"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             onClick={handleShowMore}
-            className="w-full text-teal-500 self-center text-sm py-7"
+            className="w-full text-teal-500 hover:text-pink-500 self-center text-sm py-7 transition-colors duration-300"
           >
             Show more
-          </button>
+          </motion.button>
         </div>
       )}
     </div>

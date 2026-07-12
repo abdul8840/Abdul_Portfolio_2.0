@@ -1,6 +1,7 @@
 import { Navbar, NavbarCollapse, NavbarLink, NavbarToggle } from 'flowbite-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { motion } from 'motion/react';
 import AuthThemeControls from './AuthThemeControls';
 
 const NAV_LINKS = [
@@ -39,12 +40,14 @@ const Header = () => {
       }`}
     >
       <Navbar className="max-w-5xl w-full mx-auto flex justify-between items-center bg-transparent px-4">
-        <Link
-          to="/"
-          className="self-center whitespace-nowrap text-sm sm:text-xl font-bold dark:text-white"
-        >
-          Abdul<span className="text-pink-500">.</span>
-        </Link>
+        <motion.div whileHover={{ scale: 1.05 }} className="w-fit">
+          <Link
+            to="/"
+            className="self-center whitespace-nowrap text-sm sm:text-xl font-bold dark:text-white"
+          >
+            Abdul<span className="text-pink-500">.</span>
+          </Link>
+        </motion.div>
 
         <div className="flex gap-2 md:order-2">
           <AuthThemeControls />
