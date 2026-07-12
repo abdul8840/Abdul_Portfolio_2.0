@@ -58,8 +58,38 @@ export const signin = async (req, res, next) => {
 }
 
 export const google = async (req, res, next) => {
-  const { email, name, googlePhotoUrl } = req.body;
+  const { accessToken } = req.body;
+  if (!accessToken) {
+    return next(errorHandler(400, 'Missing Google access token'));
+  }
+
   try {
+    const tokenInfoRes = await fetch(
+      `https://oauth2.googleapis.com/tokeninfo?access_token=${accessToken}`
+    );
+    if (!tokenInfoRes.ok) {
+      return next(errorHandler(401, 'Invalid Google token'));
+    }
+    const tokenInfo = await tokenInfoRes.json();
+    if (
+      tokenInfo.aud !== process.env.GOOGLE_CLIENT_ID ||
+      tokenInfo.email_verified !== 'true'
+    ) {
+      return next(errorHandler(401, 'Invalid Google token'));
+    }
+
+    const profileRes = await fetch(
+      'https://www.googleapis.com/oauth2/v3/userinfo',
+      { headers: { Authorization: `Bearer ${accessToken}` } }
+    );
+    if (!profileRes.ok) {
+      return next(errorHandler(401, 'Failed to fetch Google profile'));
+    }
+    const profile = await profileRes.json();
+    const email = profile.email;
+    const name = profile.name;
+    const googlePhotoUrl = profile.picture;
+
     const user = await User.findOne({ email });
     if (user) {
       const token = jwt.sign({ id: user._id, isAdmin: user.isAdmin }, process.env.JWT_SECRET_KEY);
