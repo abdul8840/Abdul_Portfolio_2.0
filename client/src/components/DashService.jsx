@@ -90,16 +90,18 @@ const DashService = () => {
 
       {currentUser.isAdmin && userServices.length > 0 ? (
         <>
-          <Table hoverable className='shadow-md'>
+          <Table hoverable className='shadow-md min-w-max'>
             <TableHead>
-              <TableHeadCell>Date updated</TableHeadCell>
-              <TableHeadCell>Service image</TableHeadCell>
-              <TableHeadCell>Service title</TableHeadCell>
-              <TableHeadCell>Description</TableHeadCell>
-              <TableHeadCell>Delete</TableHeadCell>
-              <TableHeadCell>
-                <span>Edit</span>
-              </TableHeadCell>
+              <TableRow>
+                <TableHeadCell>Date updated</TableHeadCell>
+                <TableHeadCell>Service image</TableHeadCell>
+                <TableHeadCell>Service title</TableHeadCell>
+                <TableHeadCell>Description</TableHeadCell>
+                <TableHeadCell>Delete</TableHeadCell>
+                <TableHeadCell>
+                  <span>Edit</span>
+                </TableHeadCell>
+              </TableRow>
             </TableHead>
             {userServices.map((service) => (
               <TableBody className='divide-y' key={service._id}>

@@ -90,14 +90,15 @@ const DashSkills = () => {
 
       {currentUser.isAdmin && userSkills.length > 0 ? (
         <>
-          <Table hoverable className='shadow-md'>
+          <Table hoverable className='shadow-md min-w-max'>
             <TableHead>
-              <TableHeadCell>Date updated</TableHeadCell>
-              <TableHeadCell>Skill image</TableHeadCell>
-              <TableHeadCell>Technology</TableHeadCell>
-              <TableHeadCell>Category</TableHeadCell>
-              <TableHeadCell>Level</TableHeadCell>
-              <TableHeadCell>Delete</TableHeadCell>
+              <TableRow>
+                <TableHeadCell>Date updated</TableHeadCell>
+                <TableHeadCell>Skill image</TableHeadCell>
+                <TableHeadCell>Technology</TableHeadCell>
+                <TableHeadCell>Category</TableHeadCell>
+                <TableHeadCell>Delete</TableHeadCell>
+              </TableRow>
             </TableHead>
             {userSkills.map((skill) => (
               <TableBody className='divide-y' key={skill._id}>
@@ -123,7 +124,6 @@ const DashSkills = () => {
                     </Link>
                   </TableCell>
                   <TableCell>{skill.category}</TableCell>
-                  <TableCell>{skill.percent}%</TableCell>
                   <TableCell>
                   <span
                       onClick={() => {

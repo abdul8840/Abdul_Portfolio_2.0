@@ -90,16 +90,18 @@ export default function DashPosts() {
       </div>
       {currentUser.isAdmin && userPosts.length > 0 ? (
         <>
-          <Table hoverable className='shadow-md'>
+          <Table hoverable className='shadow-md min-w-max'>
             <TableHead>
-              <TableHeadCell>Date updated</TableHeadCell>
-              <TableHeadCell>Post image</TableHeadCell>
-              <TableHeadCell>Post title</TableHeadCell>
-              <TableHeadCell>Category</TableHeadCell>
-              <TableHeadCell>Delete</TableHeadCell>
-              <TableHeadCell>
-                <span>Edit</span>
-              </TableHeadCell>
+              <TableRow>
+                <TableHeadCell>Date updated</TableHeadCell>
+                <TableHeadCell>Post image</TableHeadCell>
+                <TableHeadCell>Post title</TableHeadCell>
+                <TableHeadCell>Category</TableHeadCell>
+                <TableHeadCell>Delete</TableHeadCell>
+                <TableHeadCell>
+                  <span>Edit</span>
+                </TableHeadCell>
+              </TableRow>
             </TableHead>
             {userPosts.map((post) => (
               <TableBody className='divide-y' key={post._id}>

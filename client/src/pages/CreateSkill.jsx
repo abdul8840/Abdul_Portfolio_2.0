@@ -62,7 +62,7 @@ const CreateSkill = () => {
   }
   return (
     <div className='p-3 pt-20 max-w-3xl mx-auto min-h-screen'>
-      <h1 className='text-center text-3xl my-7 font-semibold'>Create Post</h1>
+      <h1 className='text-center text-3xl my-7 font-semibold'>Create Skill</h1>
       <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
         <div className="flex flex-col gap-4 sm:flex-row justify-between">
           <TextInput 
@@ -87,15 +87,6 @@ const CreateSkill = () => {
             <option value="programming">Programming Language</option>
           </Select>
         </div>
-        <TextInput 
-          id="percent"
-          type="number"
-          placeholder="Enter You Skill Percentage"
-          required={true}
-          onChange={(e) => 
-            setFormData({ ...formData, percent: e.target.value })
-          }
-        />
         <div className="flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3">
           <FileInput
             type="file"

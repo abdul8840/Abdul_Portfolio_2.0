@@ -15,8 +15,7 @@ const skillSchema = new mongoose.Schema({
   },
   percent: {
     type: Number,
-    default: 1,
-    required: true,
+    default: 100,
   },
   image: {
     type: String,

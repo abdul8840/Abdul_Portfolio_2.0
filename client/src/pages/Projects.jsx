@@ -78,14 +78,14 @@ const Projects = () => {
               onClick={() => handleTabClick(tab.value)}
               className={`relative shrink-0 py-2 px-3 sm:px-4 rounded-[7px] uppercase cursor-pointer text-xs sm:text-sm font-semibold transition-colors duration-300 ${
                 activeCategory === tab.value
-                  ? 'text-white dark:text-black'
+                  ? 'text-white'
                   : 'text-gray-600 dark:text-gray-300 hover:text-pink-500'
               }`}
             >
               {activeCategory === tab.value && (
                 <motion.span
                   layoutId="projectsTabPill"
-                  className="absolute inset-0 rounded-[7px] bg-[#222] dark:bg-white pointer-events-none z-0"
+                  className="absolute inset-0 rounded-[7px] bg-linear-to-r from-pink-500 to-purple-600 pointer-events-none z-0"
                   transition={{ type: 'spring', stiffness: 350, damping: 30 }}
                 />
               )}

@@ -187,7 +187,7 @@ const DashComp = () => {
         <div className='flex justify-between'>
           <div className=''>
             <h3 className='text-gray-500 text-md uppercase'>
-              Total Kills
+              Total Skills
             </h3>
             <p className='text-2xl'>{totalSkills}</p>
           </div>
@@ -213,8 +213,10 @@ const DashComp = () => {
         </div>
         <Table hoverable>
           <TableHead>
-            <TableHeadCell>User image</TableHeadCell>
-            <TableHeadCell>Username</TableHeadCell>
+            <TableRow>
+              <TableHeadCell>User image</TableHeadCell>
+              <TableHeadCell>Username</TableHeadCell>
+            </TableRow>
           </TableHead>
           {users &&
             users.map((user) => (
@@ -243,8 +245,10 @@ const DashComp = () => {
         <Table hoverable>
 
         <TableHead>
-            <TableHeadCell>Name</TableHeadCell>
-            <TableHeadCell>Message</TableHeadCell>
+            <TableRow>
+              <TableHeadCell>Name</TableHeadCell>
+              <TableHeadCell>Message</TableHeadCell>
+            </TableRow>
           </TableHead>
           
           {contacts &&
@@ -271,9 +275,11 @@ const DashComp = () => {
         </div>
         <Table hoverable>
           <TableHead>
-            <TableHeadCell>Post image</TableHeadCell>
-            <TableHeadCell>Post Title</TableHeadCell>
-            <TableHeadCell>Category</TableHeadCell>
+            <TableRow>
+              <TableHeadCell>Post image</TableHeadCell>
+              <TableHeadCell>Post Title</TableHeadCell>
+              <TableHeadCell>Category</TableHeadCell>
+            </TableRow>
           </TableHead>
           {posts &&
             posts.map((post) => (
@@ -296,15 +302,17 @@ const DashComp = () => {
 
       <div className='flex flex-col w-full md:w-auto shadow-md p-2 rounded-md dark:bg-gray-800'>
         <div className='flex justify-between  p-3 text-sm font-semibold'>
-          <h1 className='text-center p-2'>Recent posts</h1>
+          <h1 className='text-center p-2'>Recent services</h1>
           <Button outline color='purple'>
             <Link to={'/dashboard?tab=services'}>See all</Link>
           </Button>
         </div>
         <Table hoverable>
           <TableHead>
-            <TableHeadCell>Service image</TableHeadCell>
-            <TableHeadCell>Title Title</TableHeadCell>
+            <TableRow>
+              <TableHeadCell>Service image</TableHeadCell>
+              <TableHeadCell>Title</TableHeadCell>
+            </TableRow>
           </TableHead>
           {services &&
             services.map((service) => (
@@ -333,9 +341,10 @@ const DashComp = () => {
         </div>
         <Table hoverable>
           <TableHead>
-            <TableHeadCell>Skill image</TableHeadCell>
-            <TableHeadCell>Technologies</TableHeadCell>
-            <TableHeadCell>Percents</TableHeadCell>
+            <TableRow>
+              <TableHeadCell>Skill image</TableHeadCell>
+              <TableHeadCell>Technologies</TableHeadCell>
+            </TableRow>
           </TableHead>
           {skills &&
             skills.map((skill) => (
@@ -349,7 +358,6 @@ const DashComp = () => {
                     />
                   </TableCell>
                   <TableCell className='w-96'>{skill.technology}</TableCell>
-                  <TableCell className='w-5'>{skill.percent}</TableCell>
                 </TableRow>
               </TableBody>
             ))}
