@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { FaUserAlt, FaTrash } from "react-icons/fa";
+import { motion } from "motion/react";
+import Reveal from "../components/Reveal";
+import Magnetic from "../components/Magnetic";
+import { StaggerGroup, StaggerItem } from "../components/StaggerGroup";
+import TestimonialCard from "../components/TestimonialCard";
 
 const ReviewPage = () => {
   const [userRating, setUserRating] = useState([]);
@@ -61,89 +65,56 @@ const ReviewPage = () => {
     }
   };
 
-
   return (
-    <div className="p-3 pt-20 max-w-5xl mx-auto min-h-screen mt-10">
-      <div className="mb-10">
+    <div className="px-4 sm:px-8 pt-20 max-w-7xl mx-auto min-h-screen mt-10">
+      <Reveal className="mb-10">
         <h2 className="text-center text-4xl font-bold">Testimonials</h2>
         <p className="text-center text-lg font-semibold text-gray-500">
-          My Clients
+          What my clients say about working with me
         </p>
+        <div className="h-1 w-20 mx-auto mt-4 rounded-full bg-pink-500" />
+      </Reveal>
+
+      <div className="mb-8 flex items-center justify-between">
+        <p className="font-bold text-md md:text-lg">
+          Total Testimonials{" "}
+          <span className="text-pink-500">[{userRating.length}]</span>
+        </p>
+        <Magnetic strength={0.2}>
+          <Link to="/create-rating">
+            <motion.button
+              type="button"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="py-2 px-4 font-bold rounded-[20px] bg-[#222] hover:bg-[#111] text-white dark:bg-white dark:hover:bg-gray-200 dark:text-black shadow-md transition-colors duration-300"
+            >
+              Add Testimonial
+            </motion.button>
+          </Link>
+        </Magnetic>
       </div>
 
-      <div className="mb-4 flex justify-between">
-            <div className="">
-              <p className="font-bold text-md md:text-lg">
-                Total Testimonials :{" "}
-                <span className="ml-2 ">[{userRating.length}]</span>
-              </p>
-            </div>
-            <div className="">
-              <Link to="/create-rating">
-                <button
-                  type="button"
-                  className="border-2 border-gray-800 py-1 px-3 font-bold rounded-md hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black"
-                >
-                  Add Testimonial
-                </button>
-              </Link>
-            </div>
-          </div>
-
       {userRating.length === 0 ? (
-        <>
         <p className="text-center text-lg my-5 font-semibold text-gray-500">
           No Testimonials Yet
         </p>
-        </>
       ) : (
-        <>
-
-          <div className="w-full mb-10 flex flex-wrap justify-center items-center gap-5">
-            {userRating.map((rating) => (
-              <div
-                className="w-[300px] border-2 border-gray-500 text-center rounded-[1rem] p-[1.25rem]"
-                key={rating._id}
-              >
-                {currentUser &&
-                  (currentUser._id === rating.userId || currentUser.isAdmin) && (
-                    <span
-                      onClick={() => handleDeleteRating(rating._id)}
-                      className="text-sm cursor-pointer float-end"
-                    >
-                      <FaTrash />
-                    </span>
-                  )}
-
-                <div className="">
-                  {userData[rating.userId]?.profilePicture ? (
-                    <img
-                      className="w-20 h-20 object-cover shadow-md shadow-gray-900 rounded-full block mx-auto my-4 border-4"
-                      src={userData[rating.userId].profilePicture}
-                      alt={userData[rating.userId].name}
-                    />
-                  ) : (
-                    <FaUserAlt className="w-20 h-20 block mx-auto my-4" />
-                  )}
-                </div>
-                <p className="text-xl font-bold">
-                  {userData[rating.userId]?.name || "Loading..."}
-                </p>
-                <p className="text-sm font-semibold mb-2">
-                  {userData[rating.userId]?.username || "Loading..."}
-                </p>
-                <p className="starability-result" data-rating={rating.rating}>
-                  Rated: {rating.rating} stars
-                </p>
-                <p className="mt-5 text-md ">{rating.review}</p>
-              </div>
-            ))}
-          </div>
-        </>
+        <StaggerGroup className="w-full mb-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {userRating.map((rating) => (
+            <StaggerItem key={rating._id}>
+              <TestimonialCard
+                rating={rating}
+                author={userData[rating.userId]}
+                currentUser={currentUser}
+                onDelete={handleDeleteRating}
+                className="h-full"
+              />
+            </StaggerItem>
+          ))}
+        </StaggerGroup>
       )}
     </div>
-  )
-}
+  );
+};
 
-
-export default ReviewPage
+export default ReviewPage;

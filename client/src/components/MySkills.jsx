@@ -58,28 +58,30 @@ const MySkills = () => {
         <div className="h-1 w-20 mx-auto mt-4 rounded-full bg-linear-to-r from-pink-500 to-purple-600" />
       </Reveal>
 
-      <div className="flex flex-wrap justify-center items-center gap-3 mb-6">
-        {categories.map((category, index) => (
-          <button
-            type="button"
-            key={category}
-            onClick={() => handleClick(category, index)}
-            className={`relative py-2 px-4 rounded-[7px] uppercase cursor-pointer text-sm font-semibold transition-colors duration-300 ${
-              active === index
-                ? "text-white"
-                : "text-gray-600 dark:text-gray-300 hover:text-pink-500"
-            }`}
-          >
-            {active === index && (
-              <motion.span
-                layoutId="skillTabPill"
-                className="absolute inset-0 rounded-[7px] bg-linear-to-r from-pink-500 to-purple-600 pointer-events-none -z-10"
-                transition={{ type: "spring", stiffness: 350, damping: 30 }}
-              />
-            )}
-            {category}
-          </button>
-        ))}
+      <div className="-mx-3 px-3 overflow-x-auto sm:overflow-visible scrollbar-none mb-6">
+        <div className="flex flex-nowrap sm:flex-wrap justify-start sm:justify-center items-center gap-2 sm:gap-3 w-max sm:w-auto mx-auto">
+          {categories.map((category, index) => (
+            <button
+              type="button"
+              key={category}
+              onClick={() => handleClick(category, index)}
+              className={`relative shrink-0 py-2 px-3 sm:px-4 rounded-[7px] uppercase cursor-pointer text-xs sm:text-sm font-semibold transition-colors duration-300 ${
+                active === index
+                  ? "text-white"
+                  : "text-gray-600 dark:text-gray-300 hover:text-pink-500"
+              }`}
+            >
+              {active === index && (
+                <motion.span
+                  layoutId="skillTabPill"
+                  className="absolute inset-0 rounded-[7px] bg-linear-to-r from-pink-500 to-purple-600 pointer-events-none z-0"
+                  transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                />
+              )}
+              <span className="relative z-10">{category}</span>
+            </button>
+          ))}
+        </div>
       </div>
 
       <StaggerGroup className="w-full flex flex-wrap items-center justify-center gap-10 md:gap-5">

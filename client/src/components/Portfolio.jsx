@@ -42,28 +42,30 @@ const Portfolio = () => {
         <div className="h-1 w-20 mx-auto mt-4 rounded-full bg-pink-500" />
       </Reveal>
       <div className="mt-10">
-        <div className="flex flex-wrap justify-center items-center gap-3 mb-8">
-          {TABS.map((tab) => (
-            <button
-              type="button"
-              key={tab.value}
-              onClick={() => setActiveCategory(tab.value)}
-              className={`relative py-2 px-4 rounded-[7px] uppercase cursor-pointer text-sm font-semibold transition-colors duration-300 ${
-                activeCategory === tab.value
-                  ? "text-white dark:text-black"
-                  : "text-gray-600 dark:text-gray-300 hover:text-pink-500"
-              }`}
-            >
-              {activeCategory === tab.value && (
-                <motion.span
-                  layoutId="portfolioTabPill"
-                  className="absolute inset-0 rounded-[7px] bg-[#222] dark:bg-white pointer-events-none -z-10"
-                  transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                />
-              )}
-              {tab.label}
-            </button>
-          ))}
+        <div className="-mx-3 px-3 overflow-x-auto sm:overflow-visible scrollbar-none">
+          <div className="flex flex-nowrap sm:flex-wrap justify-start sm:justify-center items-center gap-2 sm:gap-3 mb-8 w-max sm:w-auto mx-auto">
+            {TABS.map((tab) => (
+              <button
+                type="button"
+                key={tab.value}
+                onClick={() => setActiveCategory(tab.value)}
+                className={`relative shrink-0 py-2 px-3 sm:px-4 rounded-[7px] uppercase cursor-pointer text-xs sm:text-sm font-semibold transition-colors duration-300 ${
+                  activeCategory === tab.value
+                    ? "text-white dark:text-black"
+                    : "text-gray-600 dark:text-gray-300 hover:text-pink-500"
+                }`}
+              >
+                {activeCategory === tab.value && (
+                  <motion.span
+                    layoutId="portfolioTabPill"
+                    className="absolute inset-0 rounded-[7px] bg-[#222] dark:bg-white pointer-events-none z-0"
+                    transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                  />
+                )}
+                <span className="relative z-10">{tab.label}</span>
+              </button>
+            ))}
+          </div>
         </div>
         <AnimatePresence mode="wait">
           <motion.div

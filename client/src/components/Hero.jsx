@@ -51,21 +51,7 @@ const Hero = () => {
   };
 
   return (
-    <div className="relative w-full min-h-[90vh] py-10 flex flex-col md:flex-row items-center gap-10 md:gap-20 overflow-hidden">
-      {/* animated gradient blobs */}
-      <div className="pointer-events-none absolute -z-10 inset-0 overflow-hidden">
-        <motion.div
-          className="absolute -top-20 -left-20 w-72 h-72 rounded-full bg-pink-500/20 blur-3xl"
-          animate={{ x: [0, 30, 0], y: [0, 20, 0] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute top-1/3 -right-10 w-80 h-80 rounded-full bg-purple-500/20 blur-3xl"
-          animate={{ x: [0, -20, 0], y: [0, 30, 0] }}
-          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-        />
-      </div>
-
+    <div className="relative z-0 w-full min-h-[90vh] py-10 flex flex-col md:flex-row items-center gap-10 md:gap-20 overflow-hidden">
       {/* social links */}
       <motion.div
         className="text-xl flex flex-row md:flex-col gap-6 dark:text-white"
@@ -105,13 +91,13 @@ const Hero = () => {
         <motion.div variants={item}>
           <Link
             to="/"
-            className="font-bold text-[#222] dark:text-white text-5xl transition-all duration-500 hover:bg-clip-text hover:text-transparent hover:bg-linear-to-r hover:from-pink-500 hover:to-purple-600"
+            className="font-bold text-[#222] dark:text-white text-5xl transition-colors duration-500 hover:text-pink-500"
           >
             Abdul Rahman
           </Link>
         </motion.div>
         <motion.div variants={item} className="flex items-center mt-3">
-          <div className="h-0.5 bg-linear-to-r from-pink-500 to-purple-600 w-17.5 mr-4"></div>
+          <div className="h-0.5 bg-pink-500 w-17.5 mr-4"></div>
           <span className="text-xl md:2xl font-[600] dark:text-white">
             Full Stack Web Developer
           </span>
@@ -131,7 +117,7 @@ const Hero = () => {
               whileTap={{ scale: 0.96 }}
               className="group relative inline-flex gap-2 items-center overflow-hidden py-4 px-8 text-xl font-bold rounded-[20px] bg-[#222] text-white dark:bg-white dark:text-black shadow-lg hover:shadow-pink-500/40 transition-shadow duration-500"
             >
-              <span className="absolute inset-0 bg-linear-to-r from-pink-500 to-purple-600 -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out" />
+              <span className="absolute inset-0 bg-pink-500 -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out" />
               <span className="relative z-10">Say Hii</span>
               <FaHandSpock className="relative z-10 mt-1" />
             </motion.a>

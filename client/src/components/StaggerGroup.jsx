@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import { motion } from 'motion/react';
 
 const containerVariants = {
@@ -19,17 +20,21 @@ const staggerItemVariants = {
   },
 };
 
-export const StaggerGroup = ({ children, className = '', amount = 0.15 }) => (
-  <motion.div
-    className={className}
-    variants={containerVariants}
-    initial="hidden"
-    whileInView="show"
-    viewport={{ once: true, amount }}
-  >
-    {children}
-  </motion.div>
+export const StaggerGroup = forwardRef(
+  ({ children, className = '', amount = 0.15 }, ref) => (
+    <motion.div
+      ref={ref}
+      className={className}
+      variants={containerVariants}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount }}
+    >
+      {children}
+    </motion.div>
+  )
 );
+StaggerGroup.displayName = 'StaggerGroup';
 
 export const StaggerItem = ({ children, className = '' }) => (
   <motion.div className={className} variants={staggerItemVariants}>

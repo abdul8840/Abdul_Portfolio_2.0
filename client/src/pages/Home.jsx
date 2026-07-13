@@ -14,7 +14,7 @@ const Home = () => {
     <div className="md:flex">
       <Sidebar />
       <div className="flex-1 md:ml-64">
-        <div className="max-w-7xl mx-auto p-3 pt-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-20">
           <section id="home" className="scroll-mt-32"><Hero /></section>
           <section id="about" className="scroll-mt-32"><About /></section>
           <section id="skills" className="scroll-mt-32"><MySkills /></section>
