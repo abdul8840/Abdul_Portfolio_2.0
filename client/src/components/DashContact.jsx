@@ -83,10 +83,15 @@ const DashContact = () => {
   };
 
   return (
-    <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500'>
+    <div className='p-3 md:p-6 max-w-6xl mx-auto w-full'>
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold">Contact Messages</h1>
+        <p className="text-sm text-gray-500">{contacts.length} total</p>
+      </div>
       {currentUser.isAdmin && contacts.length > 0 ? (
         <>
-          <Table hoverable className='shadow-md min-w-max'>
+          <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm overflow-x-auto">
+          <Table hoverable className='min-w-max'>
             <TableHead>
               <TableRow>
                 <TableHeadCell>Date updated</TableHeadCell>
@@ -120,6 +125,7 @@ const DashContact = () => {
               </TableBody>
             ))}
           </Table>
+          </div>
           {showMore && (
             <button
               onClick={handleShowMore}
@@ -130,7 +136,7 @@ const DashContact = () => {
           )}
         </>
       ) : (
-        <p>You have no comments yet!</p>
+        <p className="text-gray-500">You have no messages yet!</p>
       )}
       <Modal
         show={showModal}

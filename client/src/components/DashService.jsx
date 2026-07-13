@@ -42,7 +42,7 @@ const DashService = () => {
     if(currentUser.isAdmin){
       fetchServices();
     }
-  });
+  }, [currentUser._id, currentUser.isAdmin]);
 
   const handleShowMore = async () => {
     const startIndex = userServices.length;
@@ -64,7 +64,7 @@ const DashService = () => {
   const handleDeleteService = async() => {
     setShowModal(false)
     try {
-      const res = await fetch(`api/service/deleteservice/${serviceIdToDelete}/${currentUser._id}`,{
+      const res = await fetch(`/api/service/deleteservice/${serviceIdToDelete}/${currentUser._id}`,{
         method: 'DELETE',
       })
       const data = await res.json()
@@ -81,8 +81,12 @@ const DashService = () => {
 
 
   return (
-    <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500'>
-      <div className="w-full flex justify-end mt-2 mb-2">
+    <div className='p-3 md:p-6 max-w-6xl mx-auto w-full'>
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h1 className="text-2xl font-bold">Services</h1>
+          <p className="text-sm text-gray-500">{userServices.length} total</p>
+        </div>
         <Link to="/create-service">
           <Button color='purple'>Create Service</Button>
         </Link>
@@ -90,7 +94,8 @@ const DashService = () => {
 
       {currentUser.isAdmin && userServices.length > 0 ? (
         <>
-          <Table hoverable className='shadow-md min-w-max'>
+          <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm overflow-x-auto">
+          <Table hoverable className='min-w-max'>
             <TableHead>
               <TableRow>
                 <TableHeadCell>Date updated</TableHeadCell>
@@ -114,7 +119,7 @@ const DashService = () => {
                       <img
                         src={service.image}
                         alt={service.serviceTitle}
-                        className='w-20 h-10 object-cover bg-gray-500'
+                        className='w-20 h-10 object-cover rounded-lg bg-gray-200 dark:bg-gray-700'
                       />
                     </Link>
                   </TableCell>
@@ -150,6 +155,7 @@ const DashService = () => {
               </TableBody>
             ))}
           </Table>
+          </div>
           {
             showMore && (
               <button onClick={handleShowMore} className='w-full text-teal-500 self-center text-sm py-7'>
@@ -159,7 +165,7 @@ const DashService = () => {
           }
         </>
       ) : (
-        <p>You have no services yet!</p>
+        <p className="text-gray-500">You have no services yet!</p>
       )}
       <Modal
         show={showModal}
@@ -172,7 +178,7 @@ const DashService = () => {
           <div className="text-center">
             <HiOutlineExclamationCircle className="h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto" />
             <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400">
-              Are you sure you want to delete this post
+              Are you sure you want to delete this service
             </h3>
             <div className="flex justify-center gap-4">
               <Button color="failure" onClick={handleDeleteService}>

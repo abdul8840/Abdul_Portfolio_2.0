@@ -4,6 +4,7 @@ import DashSidebar from '../components/DashSidebar';
 import DashProfile from '../components/DashProfile';
 import DashPosts from '../components/DashPosts';
 import DashSkills from '../components/DashSkills';
+import DashCategories from '../components/DashCategories';
 import DashService from '../components/DashService';
 import DashRating from '../components/DashRating';
 import DashContact from '../components/DashContact';
@@ -21,27 +22,21 @@ const Dashboard = () => {
     }
   }, [location.search])
   return (
-    <div className='min-h-screen flex flex-col md:flex-row pt-20'>
-      {/* side bar */}
-      <div className="md:w-56">
-        <DashSidebar />
+    <div className='min-h-screen bg-gray-50 dark:bg-gray-950'>
+      <DashSidebar />
+      <div className='md:ml-64 pt-20 md:pt-20'>
+        <div className='pt-14 md:pt-0'>
+          {tab === 'dash' && <DashComp />}
+          {tab === 'profile' && <DashProfile />}
+          {tab === 'posts' && <DashPosts />}
+          {tab === 'skills' && <DashSkills />}
+          {tab === 'categories' && <DashCategories />}
+          {tab === 'services' && <DashService />}
+          {tab === 'ratings' && <DashRating />}
+          {tab === 'users' && <DashUsers />}
+          {tab === 'contact' && <DashContact />}
+        </div>
       </div>
-      {/* Dashboard */}
-        {tab === 'dash' && <DashComp />}
-      {/* profile */}
-        {tab === 'profile' && <DashProfile />}
-      {/* posts */}
-        {tab === 'posts' && <DashPosts />}
-      {/* skills */}
-        {tab === 'skills' && <DashSkills />}
-      {/* services */}
-        {tab === 'services' && <DashService />}
-      {/* services */}
-        {tab === 'ratings' && <DashRating />}
-      {/* users */}
-        {tab === 'users' && <DashUsers />}
-      {/* contact */}
-        {tab === 'contact' && <DashContact />}
     </div>
   )
 }

@@ -75,10 +75,15 @@ export default function DashUsers() {
   };
 
   return (
-    <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500'>
+    <div className='p-3 md:p-6 max-w-6xl mx-auto w-full'>
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold">Users</h1>
+        <p className="text-sm text-gray-500">{users.length} total</p>
+      </div>
       {currentUser.isAdmin && users.length > 0 ? (
         <>
-          <Table hoverable className='shadow-md min-w-max'>
+          <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm overflow-x-auto">
+          <Table hoverable className='min-w-max'>
             <TableHead>
               <TableRow>
                 <TableHeadCell>Date created</TableHeadCell>
@@ -126,6 +131,7 @@ export default function DashUsers() {
               </TableBody>
             ))}
           </Table>
+          </div>
           {showMore && (
             <button
               onClick={handleShowMore}
@@ -136,7 +142,7 @@ export default function DashUsers() {
           )}
         </>
       ) : (
-        <p>You have no users yet!</p>
+        <p className="text-gray-500">You have no users yet!</p>
       )}
       <Modal
         show={showModal}
