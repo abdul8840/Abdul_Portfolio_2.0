@@ -1,13 +1,14 @@
-import { Alert, Button, FileInput, Select, TextInput } from 'flowbite-react';
+import { Alert, Button, FileInput, TextInput } from 'flowbite-react';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import { uploadImage } from '../utils/uploadImage';
-import { PROJECT_CATEGORIES } from '../utils/projectCategories';
 import { useEffect, useState } from 'react';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import CategoryPicker from '../components/CategoryPicker';
+import { getCategoryLabel } from '../utils/projectCategories';
 
 export default function UpdatePost() {
   const [file, setFile] = useState(null);
@@ -102,19 +103,12 @@ export default function UpdatePost() {
             }
             value={formData.title}
           />
-          <Select
-            onChange={(e) =>
-              setFormData({ ...formData, category: e.target.value })
-            }
+          <CategoryPicker
+            type="project"
             value={formData.category}
-          >
-            <option value='uncategorized'>Select a category</option>
-            {PROJECT_CATEGORIES.map((category) => (
-              <option key={category.value} value={category.value}>
-                {category.label}
-              </option>
-            ))}
-          </Select>
+            onChange={(category) => setFormData({ ...formData, category })}
+            formatLabel={getCategoryLabel}
+          />
         </div>
         <div className='flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3'>
           <FileInput

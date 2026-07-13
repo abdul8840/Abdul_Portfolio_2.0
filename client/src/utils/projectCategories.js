@@ -1,12 +1,10 @@
-export const PROJECT_CATEGORIES = [
-  { value: 'mobile-app', label: 'Mobile App' },
-  { value: 'html-css-js', label: 'HTML/CSS/JS' },
-  { value: 'frontend-reactjs', label: 'Frontend (ReactJS)' },
-  { value: 'fullstack-mern', label: 'Fullstack (MERN) Projects' },
-  { value: 'fullstack-sql', label: 'Full Stack SQL Projects' },
-  { value: 'others', label: 'Others' },
-];
+const LEGACY_CATEGORY_LABELS = {
+  'mobile-app': 'Mobile App',
+  'html-css-js': 'HTML/CSS/JS',
+  'frontend-reactjs': 'Frontend (ReactJS)',
+  'fullstack-mern': 'Fullstack (MERN) Projects',
+  'fullstack-sql': 'Full Stack SQL Projects',
+  others: 'Others',
+};
 
-export const getCategoryLabel = (value) =>
-  PROJECT_CATEGORIES.find((category) => category.value === value)?.label ||
-  value;
+export const getCategoryLabel = (value) => LEGACY_CATEGORY_LABELS[value] || value;

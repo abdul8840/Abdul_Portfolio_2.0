@@ -31,7 +31,6 @@ export const getskills = async (req, res, next) => {
       ...(req.query.userId && { userId: req.query.userId }),
       ...(req.query.technology && { technology: req.query.technology }),
       ...(req.query.category && { category: req.query.category }),
-      ...(req.query.percent && { percent: req.query.percent }),
       ...(req.query.skillId && { _id: req.query.skillId }),
     })
       .sort({ updatedAt: sortDirection })

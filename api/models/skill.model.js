@@ -13,10 +13,6 @@ const skillSchema = new mongoose.Schema({
     type: String,
     default: 'uncategorized',
   },
-  percent: {
-    type: Number,
-    default: 100,
-  },
   image: {
     type: String,
     default: 'https://img.freepik.com/premium-vector/skills-icon-with-settings-sign-skills-icon-customize-setup-manage-process-symbol-vector-icon_775815-966.jpg',

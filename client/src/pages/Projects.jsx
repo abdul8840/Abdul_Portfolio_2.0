@@ -4,9 +4,8 @@ import { motion } from 'motion/react';
 import ProjectCard from '../components/ProjectCard';
 import Reveal from '../components/Reveal';
 import { StaggerGroup, StaggerItem } from '../components/StaggerGroup';
-import { PROJECT_CATEGORIES } from '../utils/projectCategories';
+import { getCategoryLabel } from '../utils/projectCategories';
 
-const TABS = [{ value: 'all', label: 'All' }, ...PROJECT_CATEGORIES];
 const PAGE_SIZE = 9;
 
 const Projects = () => {
@@ -15,6 +14,28 @@ const Projects = () => {
   const [activeCategory, setActiveCategory] = useState(initialCategory);
   const [posts, setPosts] = useState([]);
   const [showMore, setShowMore] = useState(true);
+  const [tabs, setTabs] = useState([{ value: 'all', label: 'All' }]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch(`/api/category/getcategories?type=project`);
+        const data = await res.json();
+        if (res.ok) {
+          setTabs([
+            { value: 'all', label: 'All' },
+            ...data.map((category) => ({
+              value: category.name,
+              label: getCategoryLabel(category.name),
+            })),
+          ]);
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -71,7 +92,7 @@ const Projects = () => {
 
       <div className="-mx-3 px-3 overflow-x-auto sm:overflow-visible scrollbar-none mb-10">
         <div className="flex flex-nowrap sm:flex-wrap justify-start sm:justify-center items-center gap-2 sm:gap-3 w-max sm:w-auto mx-auto">
-          {TABS.map((tab) => (
+          {tabs.map((tab) => (
             <button
               type="button"
               key={tab.value}

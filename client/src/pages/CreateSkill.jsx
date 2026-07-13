@@ -1,9 +1,10 @@
-import { Button, FileInput, Select, TextInput, Alert } from 'flowbite-react'
+import { Button, FileInput, TextInput, Alert } from 'flowbite-react'
 import { useState } from 'react'
 import { uploadImage } from '../utils/uploadImage';
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { useNavigate } from 'react-router-dom';
+import CategoryPicker from '../components/CategoryPicker';
 
 
 const CreateSkill = () => {
@@ -75,17 +76,11 @@ const CreateSkill = () => {
               setFormData({ ...formData, technology: e.target.value })
             }
           />
-          <Select
-          onChange={(e) => 
-            setFormData({ ...formData, category: e.target.value })
-          }
-          >
-            <option value="uncategorized">Select a category</option>
-            <option value="frontend">Frontend</option>
-            <option value="backend">Backend</option>
-            <option value="technology">Othe Technology</option>
-            <option value="programming">Programming Language</option>
-          </Select>
+          <CategoryPicker
+            type="skill"
+            value={formData.category}
+            onChange={(category) => setFormData({ ...formData, category })}
+          />
         </div>
         <div className="flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3">
           <FileInput

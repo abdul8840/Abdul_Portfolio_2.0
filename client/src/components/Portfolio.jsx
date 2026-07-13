@@ -4,14 +4,35 @@ import { AnimatePresence, motion } from "motion/react";
 import ProjectCard from "./ProjectCard";
 import Reveal from "./Reveal";
 import Magnetic from "./Magnetic";
-import { PROJECT_CATEGORIES } from "../utils/projectCategories";
+import { getCategoryLabel } from "../utils/projectCategories";
 
-const TABS = [{ value: "all", label: "All" }, ...PROJECT_CATEGORIES];
 const HOME_LIMIT = 6;
 
 const Portfolio = () => {
   const [posts, setPosts] = useState([]);
   const [activeCategory, setActiveCategory] = useState("all");
+  const [tabs, setTabs] = useState([{ value: "all", label: "All" }]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch(`/api/category/getcategories?type=project`);
+        const data = await res.json();
+        if (res.ok) {
+          setTabs([
+            { value: "all", label: "All" },
+            ...data.map((category) => ({
+              value: category.name,
+              label: getCategoryLabel(category.name),
+            })),
+          ]);
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -44,7 +65,7 @@ const Portfolio = () => {
       <div className="mt-10">
         <div className="-mx-3 px-3 overflow-x-auto sm:overflow-visible scrollbar-none">
           <div className="flex flex-nowrap sm:flex-wrap justify-start sm:justify-center items-center gap-2 sm:gap-3 mb-8 w-max sm:w-auto mx-auto">
-            {TABS.map((tab) => (
+            {tabs.map((tab) => (
               <button
                 type="button"
                 key={tab.value}
