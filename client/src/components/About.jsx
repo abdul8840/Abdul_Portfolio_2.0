@@ -5,11 +5,38 @@ import { MdSupportAgent } from "react-icons/md";
 import { IoDocumentText } from "react-icons/io5";
 import { motion } from "motion/react";
 import Reveal from "./Reveal";
+import Magnetic from "./Magnetic";
+import {
+  SPOTLIGHT_OVERLAY_CLASS,
+  SPOTLIGHT_OVERLAY_STYLE,
+  useSpotlight,
+} from "../utils/useSpotlight";
 
 const stats = [
   { icon: FaBriefcase, title: "Completed", value: "10 + Projects" },
   { icon: MdSupportAgent, title: "Support", value: "Online 24/7" },
 ];
+
+const StatCard = ({ icon: Icon, title, value }) => {
+  const { ref, handleMouseMove } = useSpotlight();
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      whileHover={{ y: -8, scale: 1.03 }}
+      transition={{ type: "spring", stiffness: 300 }}
+      className="group relative overflow-hidden w-[150px] h-[160px] border-[8px] text-center border-[#ddd] dark:border-gray-700 p-5 rounded-[20px] hover:border-pink-500 dark:hover:border-pink-500 hover:shadow-lg hover:shadow-pink-500/20 transition-[border-color,box-shadow] duration-300"
+    >
+      <div className={SPOTLIGHT_OVERLAY_CLASS} style={SPOTLIGHT_OVERLAY_STYLE} />
+      <Icon className="w-full mx-auto mb-2 text-3xl text-[#333] dark:text-white" />
+      <h3 className="text-lg font-semibold mb-1 text-[#333] dark:text-white">
+        {title}
+      </h3>
+      <p className="text-center text-sm text-gray-500">{value}</p>
+    </motion.div>
+  );
+};
 
 const About = () => {
   return (
@@ -36,19 +63,8 @@ const About = () => {
         {/* right */}
         <Reveal direction="right" className="flex-1">
           <div className="flex flex-wrap gap-5 justify-center md:justify-start">
-            {stats.map(({ icon: Icon, title, value }, index) => (
-              <motion.div
-                key={index}
-                whileHover={{ y: -8, scale: 1.03 }}
-                transition={{ type: "spring", stiffness: 300 }}
-                className="w-[150px] h-[160px] border-[8px] text-center border-[#ddd] dark:border-gray-700 p-5 rounded-[20px] hover:border-pink-500 dark:hover:border-pink-500 hover:shadow-lg hover:shadow-pink-500/20 transition-[border-color,box-shadow] duration-300"
-              >
-                <Icon className="w-full mx-auto mb-2 text-3xl text-[#333] dark:text-white" />
-                <h3 className="text-lg font-semibold mb-1 text-[#333] dark:text-white">
-                  {title}
-                </h3>
-                <p className="text-center text-sm text-gray-500">{value}</p>
-              </motion.div>
+            {stats.map((stat) => (
+              <StatCard key={stat.title} {...stat} />
             ))}
           </div>
           <div className="w-full mt-10">
@@ -58,17 +74,19 @@ const About = () => {
               user-friendly applications.
             </p>
           </div>
-          <motion.a
-            download="Abdul_Rahman_cv.pdf"
-            href={Resume}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.96 }}
-            className="group relative w-[250px] flex gap-4 items-center overflow-hidden py-4 px-8 mt-8 md:mt-10 text-xl font-bold rounded-[20px] bg-[#222] text-white dark:bg-white dark:text-black shadow-lg hover:shadow-pink-500/40 transition-shadow duration-500"
-          >
-            <span className="absolute inset-0 bg-linear-to-r from-pink-500 to-purple-600 -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out" />
-            <span className="relative z-10">Download CV</span>
-            <IoDocumentText className="relative z-10 text-3xl" />
-          </motion.a>
+          <Magnetic strength={0.2} className="mt-8 md:mt-10">
+            <motion.a
+              download="Abdul_Rahman_cv.pdf"
+              href={Resume}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.96 }}
+              className="group relative w-[250px] flex gap-4 items-center overflow-hidden py-4 px-8 text-xl font-bold rounded-[20px] bg-[#222] text-white dark:bg-white dark:text-black shadow-lg hover:shadow-pink-500/40 transition-shadow duration-500"
+            >
+              <span className="absolute inset-0 bg-linear-to-r from-pink-500 to-purple-600 -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out" />
+              <span className="relative z-10">Download CV</span>
+              <IoDocumentText className="relative z-10 text-3xl" />
+            </motion.a>
+          </Magnetic>
         </Reveal>
       </div>
     </div>

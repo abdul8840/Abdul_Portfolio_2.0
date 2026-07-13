@@ -15,6 +15,7 @@ import CraeteReview from './pages/CraeteReview';
 import ReviewPage from './pages/ReviewPage';
 import Projects from './pages/Projects';
 import Footer from './components/Footer';
+import CustomCursor from './components/CustomCursor';
 
 const AppLayout = () => {
   const { pathname } = useLocation();
@@ -22,6 +23,7 @@ const AppLayout = () => {
 
   return (
     <>
+      <CustomCursor />
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />

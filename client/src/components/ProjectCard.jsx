@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Modal, ModalBody, ModalHeader } from 'flowbite-react';
 import { FaArrowRightLong } from 'react-icons/fa6';
 import { motion } from 'motion/react';
+import { getCategoryLabel } from '../utils/projectCategories';
 
 const ProjectCard = ({ post }) => {
   const [showModal, setShowModal] = useState(false);
@@ -9,29 +10,37 @@ const ProjectCard = ({ post }) => {
   return (
     <>
       <motion.div
-        whileHover={{ y: -10 }}
+        whileHover={{ y: -8 }}
         transition={{ type: 'spring', stiffness: 300 }}
-        className="group border-2 border-gray-300 dark:border-gray-700 rounded-[1rem] p-[1.25rem] hover:border-pink-500 dark:hover:border-pink-500 hover:shadow-xl hover:shadow-pink-500/10 transition-[border-color,box-shadow] duration-300"
+        className="group flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-sm hover:shadow-2xl hover:border-gray-900 dark:hover:border-white transition-[box-shadow,border-color] duration-300"
       >
-        <div className="relative overflow-hidden rounded-[1rem] mb-3">
+        <div className="relative overflow-hidden">
           <img
             src={post.image}
             alt={post.title}
-            className="w-[295px] h-[180px] object-cover transition-transform duration-500 group-hover:scale-110"
+            className="h-48 w-full object-cover transition-transform duration-500 group-hover:scale-110"
           />
-          <div className="absolute inset-0 bg-linear-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300" />
+          {post.category && (
+            <span className="absolute top-3 left-3 rounded-full bg-black/80 dark:bg-white px-3 py-1 text-xs font-bold uppercase tracking-wide text-white dark:text-black">
+              {getCategoryLabel(post.category)}
+            </span>
+          )}
         </div>
-        <h1 className="text-xl font-bold">{post.title}</h1>
-        <p className="text-lg mt-2 mb-5 font-semibold text-gray-600">
-          {post.description}
-        </p>
-        <span
-          className="mt-5 flex items-center gap-1 text-gray-500 cursor-pointer group-hover:text-pink-500 transition-colors duration-300"
-          onClick={() => setShowModal(true)}
-        >
-          View More{' '}
-          <FaArrowRightLong className="mt-0.5 transition-transform duration-300 group-hover:translate-x-1" />
-        </span>
+        <div className="flex flex-1 flex-col p-5">
+          <h1 className="text-lg font-bold">{post.title}</h1>
+          <p className="mt-2 mb-5 text-sm font-medium text-gray-600 dark:text-gray-400 line-clamp-2">
+            {post.description}
+          </p>
+          <button
+            type="button"
+            onClick={() => setShowModal(true)}
+            className="mt-auto inline-flex w-fit items-center gap-1 self-start border-b-2 border-transparent pb-0.5 text-sm font-bold text-gray-900 dark:text-white group-hover:border-pink-500 transition-colors duration-300"
+          >
+            View More
+            <FaArrowRightLong className="mt-0.5 transition-transform duration-300 group-hover:translate-x-1" />
+          </button>
+        </div>
       </motion.div>
 
       <Modal

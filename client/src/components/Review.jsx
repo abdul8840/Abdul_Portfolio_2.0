@@ -5,6 +5,55 @@ import { FaUserAlt, FaTrash } from "react-icons/fa";
 import { motion } from "motion/react";
 import Reveal from "./Reveal";
 import { StaggerGroup, StaggerItem } from "./StaggerGroup";
+import {
+  SPOTLIGHT_OVERLAY_CLASS,
+  SPOTLIGHT_OVERLAY_STYLE,
+  useSpotlight,
+} from "../utils/useSpotlight";
+
+const TestimonialCard = ({ rating, author, currentUser, onDelete }) => {
+  const { ref, handleMouseMove } = useSpotlight();
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      whileHover={{ y: -8 }}
+      transition={{ type: "spring", stiffness: 300 }}
+      className="group relative overflow-hidden w-[250px] border-2 border-gray-300 dark:border-gray-700 text-center rounded-[1rem] p-[1.25rem] hover:border-pink-500 dark:hover:border-pink-500 hover:shadow-xl hover:shadow-pink-500/10 transition-[border-color,box-shadow] duration-300"
+    >
+      <div className={SPOTLIGHT_OVERLAY_CLASS} style={SPOTLIGHT_OVERLAY_STYLE} />
+      {currentUser &&
+        (currentUser._id === rating.userId || currentUser.isAdmin) && (
+          <span
+            onClick={() => onDelete(rating._id)}
+            className="text-sm cursor-pointer float-end hover:text-red-500 transition-colors"
+          >
+            <FaTrash />
+          </span>
+        )}
+      <div className="">
+        {author?.profilePicture ? (
+          <img
+            className="w-20 h-20 object-cover shadow-md shadow-gray-900 rounded-full block mx-auto my-4 border-4 border-transparent hover:border-pink-500 transition-colors duration-300"
+            src={author.profilePicture}
+            alt={author.name}
+          />
+        ) : (
+          <FaUserAlt className="w-20 h-20 block mx-auto my-4" />
+        )}
+      </div>
+      <p className="text-xl font-bold">{author?.name || "Loading..."}</p>
+      <p className="text-sm font-semibold mb-2">
+        {author?.username || "Loading..."}
+      </p>
+      <p className="starability-result" data-rating={rating.rating}>
+        Rated: {rating.rating} stars
+      </p>
+      <p className="mt-3 text-md">{rating.review}</p>
+    </motion.div>
+  );
+};
 
 const Review = () => {
   const [userRating, setUserRating] = useState([]);
@@ -108,42 +157,12 @@ const Review = () => {
           <StaggerGroup className="flex items-center overflow-x-scroll hide-scrollbar gap-5">
             {userRating.map((rating) => (
               <StaggerItem key={rating._id}>
-                <motion.div
-                  whileHover={{ y: -8 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                  className="w-[250px] border-2 border-gray-300 dark:border-gray-700 text-center rounded-[1rem] p-[1.25rem] hover:border-pink-500 dark:hover:border-pink-500 hover:shadow-xl hover:shadow-pink-500/10 transition-[border-color,box-shadow] duration-300"
-                >
-                  {currentUser &&
-                    (currentUser._id === rating.userId || currentUser.isAdmin) && (
-                      <span
-                        onClick={() => handleDeleteRating(rating._id)}
-                        className="text-sm cursor-pointer float-end hover:text-red-500 transition-colors"
-                      >
-                        <FaTrash />
-                      </span>
-                    )}
-                  <div className="">
-                    {userData[rating.userId]?.profilePicture ? (
-                      <img
-                        className="w-20 h-20 object-cover shadow-md shadow-gray-900 rounded-full block mx-auto my-4 border-4 border-transparent hover:border-pink-500 transition-colors duration-300"
-                        src={userData[rating.userId].profilePicture}
-                        alt={userData[rating.userId].name}
-                      />
-                    ) : (
-                      <FaUserAlt className="w-20 h-20 block mx-auto my-4" />
-                    )}
-                  </div>
-                  <p className="text-xl font-bold">
-                    {userData[rating.userId]?.name || "Loading..."}
-                  </p>
-                  <p className="text-sm font-semibold mb-2">
-                    {userData[rating.userId]?.username || "Loading..."}
-                  </p>
-                  <p className="starability-result" data-rating={rating.rating}>
-                    Rated: {rating.rating} stars
-                  </p>
-                  <p className="mt-3 text-md">{rating.review}</p>
-                </motion.div>
+                <TestimonialCard
+                  rating={rating}
+                  author={userData[rating.userId]}
+                  currentUser={currentUser}
+                  onDelete={handleDeleteRating}
+                />
               </StaggerItem>
             ))}
           </StaggerGroup>

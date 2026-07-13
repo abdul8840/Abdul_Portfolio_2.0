@@ -46,3 +46,15 @@ html{
 }
 
 }
+
+.custom-cursor-active,
+.custom-cursor-active * {
+  cursor: none !important;
+}
+
+.custom-cursor-active input,
+.custom-cursor-active textarea,
+.custom-cursor-active select,
+.custom-cursor-active [contenteditable="true"] {
+  cursor: auto !important;
+}

@@ -5,7 +5,13 @@ import { Alert, Button, TextInput, Textarea } from "flowbite-react";
 import { useSelector } from "react-redux";
 import { motion } from "motion/react";
 import Reveal from "./Reveal";
+import Magnetic from "./Magnetic";
 import { StaggerGroup, StaggerItem } from "./StaggerGroup";
+import {
+  SPOTLIGHT_OVERLAY_CLASS,
+  SPOTLIGHT_OVERLAY_STYLE,
+  useSpotlight,
+} from "../utils/useSpotlight";
 
 const contactMethods = [
   {
@@ -27,6 +33,34 @@ const contactMethods = [
     href: "https://t.me/@abdul8840",
   },
 ];
+
+const ContactMethodCard = ({ icon: Icon, title, value, href }) => {
+  const { ref, handleMouseMove } = useSpotlight();
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      whileHover={{ y: -4, scale: 1.02 }}
+      transition={{ type: 'spring', stiffness: 300 }}
+      className="group relative overflow-hidden w-[300px] mx-auto text-center border-2 border-gray-300 dark:border-gray-700 rounded-lg p-2 hover:border-pink-500 dark:hover:border-pink-500 hover:shadow-lg hover:shadow-pink-500/10 transition-[border-color,box-shadow] duration-300"
+    >
+      <div className={SPOTLIGHT_OVERLAY_CLASS} style={SPOTLIGHT_OVERLAY_STYLE} />
+      <Icon className="block w-full mx-auto text-4xl my-2 transition-transform duration-300 group-hover:scale-110 group-hover:text-pink-500" />
+      <h2 className="text-xl font-bold">{title}</h2>
+      <p className="text-lg font-semibold my-1">{value}</p>
+      <a
+        className="text-md flex items-center justify-center gap-1 group-hover:text-pink-500 transition-colors"
+        href={href}
+        target="_blank"
+        rel="noreferrer noopener"
+      >
+        Write me{' '}
+        <FaArrowRight className="mt-1 transition-transform duration-300 group-hover:translate-x-1" />
+      </a>
+    </motion.div>
+  );
+};
 
 const Contact = () => {
   const [formData, setFormData] = useState({});
@@ -75,26 +109,9 @@ const Contact = () => {
         <div className="flex-1">
           <h3 className="text-xl text-center font-bold">Talk to me via</h3>
           <StaggerGroup className="w-full flex flex-col justify-center gap-5">
-            {contactMethods.map(({ icon: Icon, title, value, href }, index) => (
-              <StaggerItem key={title} className={index === 0 ? 'mt-10' : 'mt-5'}>
-                <motion.div
-                  whileHover={{ y: -4, scale: 1.02 }}
-                  transition={{ type: 'spring', stiffness: 300 }}
-                  className="group w-[300px] mx-auto text-center border-2 border-gray-300 dark:border-gray-700 rounded-lg p-2 hover:border-pink-500 dark:hover:border-pink-500 hover:shadow-lg hover:shadow-pink-500/10 transition-[border-color,box-shadow] duration-300"
-                >
-                  <Icon className="block w-full mx-auto text-4xl my-2 transition-transform duration-300 group-hover:scale-110 group-hover:text-pink-500" />
-                  <h2 className="text-xl font-bold">{title}</h2>
-                  <p className="text-lg font-semibold my-1">{value}</p>
-                  <a
-                    className="text-md flex items-center justify-center gap-1 group-hover:text-pink-500 transition-colors"
-                    href={href}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                  >
-                    Write me{' '}
-                    <FaArrowRight className="mt-1 transition-transform duration-300 group-hover:translate-x-1" />
-                  </a>
-                </motion.div>
+            {contactMethods.map((method, index) => (
+              <StaggerItem key={method.title} className={index === 0 ? 'mt-10' : 'mt-5'}>
+                <ContactMethodCard {...method} />
               </StaggerItem>
             ))}
           </StaggerGroup>
@@ -143,15 +160,15 @@ const Contact = () => {
                   }
                 />
               </div>
-              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}>
+              <Magnetic strength={0.15} className="block w-full mt-8 md:mt-7">
                 <Button
                   type="submit"
-                  className="group relative w-full overflow-hidden flex gap-2 py-2 bg-[#222] hover:bg-[#111] text-white dark:bg-white dark:text-black font-bold px-8 rounded-[20px] mt-8 md:mt-7 text-xl"
+                  className="group relative w-full overflow-hidden flex gap-2 py-2 bg-[#222] hover:bg-[#111] text-white dark:bg-white dark:text-black font-bold px-8 rounded-[20px] text-xl"
                 >
                   <span className="absolute inset-0 bg-linear-to-r from-pink-500 to-purple-600 -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out" />
                   <span className="relative z-10 w-full text-center">Submit</span>
                 </Button>
-              </motion.div>
+              </Magnetic>
               {errors && (
                 <Alert color='failure' className=" my-2">{errors}</Alert>
               )}

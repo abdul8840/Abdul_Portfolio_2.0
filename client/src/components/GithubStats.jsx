@@ -3,7 +3,13 @@ import { FaCodeBranch, FaGithub, FaUsers } from 'react-icons/fa';
 import { HiOutlineCollection } from 'react-icons/hi';
 import { motion } from 'motion/react';
 import Reveal from './Reveal';
+import Magnetic from './Magnetic';
 import { StaggerGroup, StaggerItem } from './StaggerGroup';
+import {
+  SPOTLIGHT_OVERLAY_CLASS,
+  SPOTLIGHT_OVERLAY_STYLE,
+  useSpotlight,
+} from '../utils/useSpotlight';
 
 const CountUp = ({ value, duration = 1.2 }) => {
   const [display, setDisplay] = useState(0);
@@ -21,6 +27,29 @@ const CountUp = ({ value, duration = 1.2 }) => {
   }, [value, duration]);
 
   return display;
+};
+
+const GithubStatCard = ({ icon: Icon, title, value, suffix }) => {
+  const { ref, handleMouseMove } = useSpotlight();
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      whileHover={{ y: -8, scale: 1.03 }}
+      transition={{ type: 'spring', stiffness: 300 }}
+      className="group relative overflow-hidden w-[150px] h-[160px] border-[8px] text-center border-[#ddd] dark:border-gray-700 p-5 rounded-[20px] hover:border-pink-500 dark:hover:border-pink-500 hover:shadow-lg hover:shadow-pink-500/20 transition-[border-color,box-shadow] duration-300"
+    >
+      <div className={SPOTLIGHT_OVERLAY_CLASS} style={SPOTLIGHT_OVERLAY_STYLE} />
+      <Icon className="w-full mx-auto mb-2 text-3xl text-[#333] dark:text-white" />
+      <h3 className="text-lg font-semibold mb-1 text-[#333] dark:text-white">
+        {title}
+      </h3>
+      <p className="text-center text-sm text-gray-500">
+        <CountUp value={value} /> {suffix}
+      </p>
+    </motion.div>
+  );
 };
 
 const GithubStats = () => {
@@ -84,21 +113,9 @@ const GithubStats = () => {
       </Reveal>
 
       <StaggerGroup className="flex flex-wrap justify-center gap-5 mb-10">
-        {statCards.map(({ icon: Icon, title, value, suffix }) => (
-          <StaggerItem key={title}>
-            <motion.div
-              whileHover={{ y: -8, scale: 1.03 }}
-              transition={{ type: 'spring', stiffness: 300 }}
-              className="w-[150px] h-[160px] border-[8px] text-center border-[#ddd] dark:border-gray-700 p-5 rounded-[20px] hover:border-pink-500 dark:hover:border-pink-500 hover:shadow-lg hover:shadow-pink-500/20 transition-[border-color,box-shadow] duration-300"
-            >
-              <Icon className="w-full mx-auto mb-2 text-3xl text-[#333] dark:text-white" />
-              <h3 className="text-lg font-semibold mb-1 text-[#333] dark:text-white">
-                {title}
-              </h3>
-              <p className="text-center text-sm text-gray-500">
-                <CountUp value={value} /> {suffix}
-              </p>
-            </motion.div>
+        {statCards.map((card) => (
+          <StaggerItem key={card.title}>
+            <GithubStatCard {...card} />
           </StaggerItem>
         ))}
       </StaggerGroup>
@@ -132,18 +149,20 @@ const GithubStats = () => {
       </Reveal>
 
       <div className="flex justify-center mt-6">
-        <motion.a
-          href={stats.profileUrl}
-          target="_blank"
-          rel="noreferrer"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.96 }}
-          className="group relative flex items-center gap-2 overflow-hidden py-3 px-6 font-bold rounded-[20px] bg-[#222] text-white dark:bg-white dark:text-black shadow-lg hover:shadow-pink-500/40 transition-shadow duration-500"
-        >
-          <span className="absolute inset-0 bg-linear-to-r from-pink-500 to-purple-600 -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out" />
-          <FaGithub className="relative z-10" />
-          <span className="relative z-10">View GitHub Profile</span>
-        </motion.a>
+        <Magnetic>
+          <motion.a
+            href={stats.profileUrl}
+            target="_blank"
+            rel="noreferrer"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.96 }}
+            className="group relative flex items-center gap-2 overflow-hidden py-3 px-6 font-bold rounded-[20px] bg-[#222] text-white dark:bg-white dark:text-black shadow-lg hover:shadow-pink-500/40 transition-shadow duration-500"
+          >
+            <span className="absolute inset-0 bg-linear-to-r from-pink-500 to-purple-600 -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out" />
+            <FaGithub className="relative z-10" />
+            <span className="relative z-10">View GitHub Profile</span>
+          </motion.a>
+        </Magnetic>
       </div>
     </div>
   );

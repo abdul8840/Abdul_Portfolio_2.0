@@ -4,6 +4,42 @@ import { Modal, ModalBody, ModalHeader } from "flowbite-react";
 import { motion } from "motion/react";
 import Reveal from "./Reveal";
 import { StaggerGroup, StaggerItem } from "./StaggerGroup";
+import {
+  SPOTLIGHT_OVERLAY_CLASS,
+  SPOTLIGHT_OVERLAY_STYLE,
+  useSpotlight,
+} from "../utils/useSpotlight";
+
+const ServiceCard = ({ service, onViewMore }) => {
+  const { ref, handleMouseMove } = useSpotlight();
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      whileHover={{ y: -10 }}
+      transition={{ type: "spring", stiffness: 300 }}
+      className="group relative overflow-hidden w-[250px] border-2 border-gray-300 dark:border-gray-700 rounded-[1rem] p-[1.25rem] hover:border-pink-500 dark:hover:border-pink-500 hover:shadow-xl hover:shadow-pink-500/10 transition-[border-color,box-shadow] duration-300"
+    >
+      <div className={SPOTLIGHT_OVERLAY_CLASS} style={SPOTLIGHT_OVERLAY_STYLE} />
+      <motion.img
+        whileHover={{ rotate: 8, scale: 1.1 }}
+        transition={{ type: "spring", stiffness: 300 }}
+        className="w-[50px] mb-5"
+        src={service.image}
+        alt={service.serviceTitle}
+      />
+      <h3 className="text-xl font-bold">{service.serviceTitle}</h3>
+      <p
+        onClick={() => onViewMore(service)}
+        className="mt-5 flex items-center gap-1 text-gray-500 cursor-pointer group-hover:text-pink-500 transition-colors duration-300"
+      >
+        View More
+        <FaArrowRightLong className="mt-0.5 transition-transform duration-300 group-hover:translate-x-1" />
+      </p>
+    </motion.div>
+  );
+};
 
 const Services = () => {
   const [userServices, setUserServices] = useState([]);
@@ -43,27 +79,7 @@ const Services = () => {
       <StaggerGroup className="w-full flex flex-wrap items-center justify-center gap-10 md:gap-5">
         {userServices.map((service) => (
           <StaggerItem key={service._id}>
-            <motion.div
-              whileHover={{ y: -10 }}
-              transition={{ type: "spring", stiffness: 300 }}
-              className="group w-[250px] border-2 border-gray-300 dark:border-gray-700 rounded-[1rem] p-[1.25rem] hover:border-pink-500 dark:hover:border-pink-500 hover:shadow-xl hover:shadow-pink-500/10 transition-[border-color,box-shadow] duration-300"
-            >
-              <motion.img
-                whileHover={{ rotate: 8, scale: 1.1 }}
-                transition={{ type: "spring", stiffness: 300 }}
-                className="w-[50px] mb-5"
-                src={service.image}
-                alt={service.serviceTitle}
-              />
-              <h3 className="text-xl font-bold">{service.serviceTitle}</h3>
-              <p
-                onClick={() => handleViewMoreClick(service)}
-                className="mt-5 flex items-center gap-1 text-gray-500 cursor-pointer group-hover:text-pink-500 transition-colors duration-300"
-              >
-                View More
-                <FaArrowRightLong className="mt-0.5 transition-transform duration-300 group-hover:translate-x-1" />
-              </p>
-            </motion.div>
+            <ServiceCard service={service} onViewMore={handleViewMoreClick} />
           </StaggerItem>
         ))}
       </StaggerGroup>

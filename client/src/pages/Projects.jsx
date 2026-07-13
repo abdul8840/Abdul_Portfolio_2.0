@@ -60,13 +60,13 @@ const Projects = () => {
   };
 
   return (
-    <div className="p-3 pt-20 max-w-5xl mx-auto min-h-screen mt-10">
+    <div className="p-3 pt-20 max-w-7xl mx-auto min-h-screen mt-10">
       <Reveal className="mb-10">
         <h2 className="text-center text-4xl font-bold">My Projects</h2>
         <p className="text-center text-lg font-semibold text-gray-500">
           Everything I&apos;ve built, by category
         </p>
-        <div className="h-1 w-20 mx-auto mt-4 rounded-full bg-linear-to-r from-pink-500 to-purple-600" />
+        <div className="h-1 w-20 mx-auto mt-4 rounded-full bg-pink-500" />
       </Reveal>
 
       <div className="flex flex-wrap justify-center items-center gap-3 mb-10">
@@ -77,14 +77,14 @@ const Projects = () => {
             onClick={() => handleTabClick(tab.value)}
             className={`relative py-2 px-4 rounded-[7px] uppercase cursor-pointer text-sm font-semibold transition-colors duration-300 ${
               activeCategory === tab.value
-                ? 'text-white'
+                ? 'text-white dark:text-black'
                 : 'text-gray-600 dark:text-gray-300 hover:text-pink-500'
             }`}
           >
             {activeCategory === tab.value && (
               <motion.span
                 layoutId="projectsTabPill"
-                className="absolute inset-0 rounded-[7px] bg-linear-to-r from-pink-500 to-purple-600 pointer-events-none -z-10"
+                className="absolute inset-0 rounded-[7px] bg-[#222] dark:bg-white pointer-events-none -z-10"
                 transition={{ type: 'spring', stiffness: 350, damping: 30 }}
               />
             )}
@@ -93,7 +93,7 @@ const Projects = () => {
         ))}
       </div>
 
-      <StaggerGroup className="flex flex-wrap gap-10 justify-center">
+      <StaggerGroup className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {posts.map((post) => (
           <StaggerItem key={post._id}>
             <ProjectCard post={post} />

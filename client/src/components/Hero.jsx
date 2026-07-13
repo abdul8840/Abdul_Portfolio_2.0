@@ -1,7 +1,9 @@
 import { FaDiscord, FaGithub, FaHandSpock, FaLinkedin } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { motion } from "motion/react";
+import { useRef } from "react";
+import { motion, useMotionValue, useSpring } from "motion/react";
 import HeroImg from "../assets/abdulpf.jpg";
+import Magnetic from "./Magnetic";
 
 const socialLinks = [
   { href: "https://github.com/abdul8840?tab=repositories", icon: FaGithub },
@@ -27,6 +29,27 @@ const item = {
 };
 
 const Hero = () => {
+  const tiltRef = useRef(null);
+  const rotateX = useMotionValue(0);
+  const rotateY = useMotionValue(0);
+  const springRotateX = useSpring(rotateX, { stiffness: 150, damping: 15 });
+  const springRotateY = useSpring(rotateY, { stiffness: 150, damping: 15 });
+
+  const handleImageMouseMove = (e) => {
+    const el = tiltRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const px = (e.clientX - rect.left) / rect.width - 0.5;
+    const py = (e.clientY - rect.top) / rect.height - 0.5;
+    rotateY.set(px * 20);
+    rotateX.set(py * -20);
+  };
+
+  const handleImageMouseLeave = () => {
+    rotateX.set(0);
+    rotateY.set(0);
+  };
+
   return (
     <div className="relative w-full min-h-[90vh] py-10 flex flex-col md:flex-row items-center gap-10 md:gap-20 overflow-hidden">
       {/* animated gradient blobs */}
@@ -100,17 +123,20 @@ const Hero = () => {
           I&apos;m a creative web designer based in Maharastra India, and
           i&apos;m very passionate and dedicated to my work.
         </motion.p>
-        <motion.a
-          variants={item}
-          href="#helloCont"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.96 }}
-          className="group relative inline-flex gap-2 items-center overflow-hidden py-4 px-8 mt-8 md:mt-10 text-xl font-bold rounded-[20px] bg-[#222] text-white dark:bg-white dark:text-black shadow-lg hover:shadow-pink-500/40 transition-shadow duration-500"
-        >
-          <span className="absolute inset-0 bg-linear-to-r from-pink-500 to-purple-600 -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out" />
-          <span className="relative z-10">Say Hii</span>
-          <FaHandSpock className="relative z-10 mt-1" />
-        </motion.a>
+        <motion.div variants={item} className="mt-8 md:mt-10">
+          <Magnetic strength={0.25}>
+            <motion.a
+              href="#helloCont"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.96 }}
+              className="group relative inline-flex gap-2 items-center overflow-hidden py-4 px-8 text-xl font-bold rounded-[20px] bg-[#222] text-white dark:bg-white dark:text-black shadow-lg hover:shadow-pink-500/40 transition-shadow duration-500"
+            >
+              <span className="absolute inset-0 bg-linear-to-r from-pink-500 to-purple-600 -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out" />
+              <span className="relative z-10">Say Hii</span>
+              <FaHandSpock className="relative z-10 mt-1" />
+            </motion.a>
+          </Magnetic>
+        </motion.div>
       </motion.div>
 
       {/* right side */}
@@ -127,12 +153,20 @@ const Hero = () => {
             delay: 1.1,
           },
         }}
+        style={{ perspective: 800 }}
       >
-        <img
-          src={HeroImg}
-          alt=""
-          className="home-img border-4 dark:border-gray-600"
-        />
+        <motion.div
+          ref={tiltRef}
+          onMouseMove={handleImageMouseMove}
+          onMouseLeave={handleImageMouseLeave}
+          style={{ rotateX: springRotateX, rotateY: springRotateY }}
+        >
+          <img
+            src={HeroImg}
+            alt=""
+            className="home-img border-4 dark:border-gray-600"
+          />
+        </motion.div>
       </motion.div>
     </div>
   );
