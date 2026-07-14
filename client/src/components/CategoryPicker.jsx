@@ -24,7 +24,10 @@ const CategoryPicker = ({ type, value, onChange, className = '', formatLabel }) 
   }, [type]);
 
   const handleAddCategory = async () => {
-    if (!newName.trim()) return;
+    if (!newName.trim()) {
+      setError('Please enter a category name first');
+      return;
+    }
     try {
       const res = await fetch('/api/category/createcategory', {
         method: 'POST',
@@ -59,7 +62,11 @@ const CategoryPicker = ({ type, value, onChange, className = '', formatLabel }) 
             placeholder="New category name"
             value={newName}
             autoFocus
-            onChange={(e) => setNewName(e.target.value)}
+            color={error ? 'failure' : undefined}
+            onChange={(e) => {
+              setNewName(e.target.value);
+              if (error) setError(null);
+            }}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
                 e.preventDefault();

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Button, Modal, ModalBody, ModalHeader, TextInput } from 'flowbite-react';
 import { HiOutlineExclamationCircle, HiPlus, HiTrash } from 'react-icons/hi';
@@ -12,6 +12,7 @@ const CategoryColumn = ({ title, type, formatLabel }) => {
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState(null);
+  const inputRef = useRef(null);
 
   const fetchCategories = async () => {
     try {
@@ -29,7 +30,11 @@ const CategoryColumn = ({ title, type, formatLabel }) => {
   }, [type]);
 
   const handleAdd = async () => {
-    if (!newName.trim()) return;
+    if (!newName.trim()) {
+      setError('Please enter a category name first');
+      inputRef.current?.focus();
+      return;
+    }
     try {
       const res = await fetch('/api/category/createcategory', {
         method: 'POST',
@@ -79,10 +84,15 @@ const CategoryColumn = ({ title, type, formatLabel }) => {
 
       <div className="flex gap-2 mb-4">
         <TextInput
+          ref={inputRef}
           className="flex-1"
           placeholder="New category name"
           value={newName}
-          onChange={(e) => setNewName(e.target.value)}
+          color={error ? 'failure' : undefined}
+          onChange={(e) => {
+            setNewName(e.target.value);
+            if (error) setError(null);
+          }}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
               e.preventDefault();

@@ -14,6 +14,7 @@ import CreateService from './pages/CreateService';
 import CraeteReview from './pages/CraeteReview';
 import ReviewPage from './pages/ReviewPage';
 import Projects from './pages/Projects';
+import ProjectDetails from './pages/ProjectDetails';
 import Footer from './components/Footer';
 import CustomCursor from './components/CustomCursor';
 
@@ -42,6 +43,7 @@ const AppLayout = () => {
         <Route path='/create-rating' element={<CraeteReview />} />
         <Route path='/reviews' element={<ReviewPage />} />
         <Route path='/projects' element={<Projects />} />
+        <Route path='/post/:slug' element={<ProjectDetails />} />
       </Routes>
       {!isHome && <Footer />}
     </>
